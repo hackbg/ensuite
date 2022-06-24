@@ -1,0 +1,19 @@
+lockfileVersion: 5.4
+
+importers:
+
+  .:
+    specifiers:
+      '@hackbg/ganesha': workspace:*
+      '@hackbg/runspec': workspace:*
+      why-is-node-still-running: ^1.0.0
+    dependencies:
+      '@hackbg/ganesha': link:ganesha
+      '@hackbg/runspec': link:toolbox/runspec
+      why-is-node-still-running: 1.0.0
+
+packages:
+
+  /why-is-node-still-running/1.0.0:
+    resolution: {integrity: sha512-oLjSBpYU0cY77XUJZzu0acNMaM/23dncjWsMcvSt45ZyyBEUuVXGDV2rH3XOg85xobxIIp1jcrq91r74XT1QDg==}
+    dev: false
