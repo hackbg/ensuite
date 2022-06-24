@@ -1,0 +1,6 @@
+[submodule "toolbox"]
+	path = toolbox
+	url = git@github.com:hackbg/toolbox.git
+[submodule "ganesha"]
+	path = ganesha
+	url = git@github.com:hackbg/ganesha.git
