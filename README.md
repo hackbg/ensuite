@@ -1,6 +1,14 @@
+<div align="center">
+
 # Ensuite
 
-This project defines and implements the **literate test suite workflow**,
+**Literate test-driven development in TypeScript.**
+
+</div>
+
+---
+
+This project defines and implements the **literate TDD workflow**,
 as used by [Fadroma](https://github.com/hackbg/fadroma).
 
 A **literate test suite** is a program written in Markdown with embedded code blocks.
