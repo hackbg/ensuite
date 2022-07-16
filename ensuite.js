@@ -22,4 +22,7 @@ export async function main (root, ...specs) {
   const suite = await import(index)
   await runSpec(suite.default, specs)
 
+  console.log('Tests done.')
+  process.stdin.pause()
+
 }
