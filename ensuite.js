@@ -5,7 +5,7 @@ main(...process.argv.slice(2))
 export async function main (root, ...specs) {
 
   // If tests don't exit, press "?" to see why
-  process.stdin.setRawMode(true)
+  if (process.stdin.setRawMode) process.stdin.setRawMode(true)
   process.stdin.resume()
   process.stdin.setEncoding('utf8')
   process.stdin.on('data', key => {
