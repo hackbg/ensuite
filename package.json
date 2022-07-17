@@ -8,12 +8,12 @@
   "repository": { "type": "git", "url": "https://github.com/hackbg/ensuite" },
   "scripts": {
     "release:dry": "npm publish --dry-run",
-    "release:wet": "npm publish"
+    "release:wet": "npm publish --access=public || true"
   },
   "dependencies": {
-    "@hackbg/ganesha": "workspace:*",
-    "@hackbg/runspec": "workspace:*",
-    "why-is-node-still-running": "^1.0.0"
+    "@hackbg/ganesha":           "^2.2",
+    "@hackbg/runspec":           "^2.3",
+    "why-is-node-still-running": "^1"
   },
   "workspace": true,
   "packages": [
