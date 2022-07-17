@@ -1,6 +1,8 @@
 [submodule "toolbox"]
-	path = toolbox
-	url = git@github.com:hackbg/toolbox.git
+	path   = toolbox
+	url    = https://github.com/hackbg/toolbox.git
+	branch = main
 [submodule "ganesha"]
-	path = ganesha
-	url = git@github.com:hackbg/ganesha.git
+	path   = ganesha
+	url    = https://github.com/hackbg/ganesha.git
+	branch = develop
