@@ -11,7 +11,7 @@
     "release:wet": "npm publish --access=public || true"
   },
   "dependencies": {
-    "@hackbg/ganesha":           "^2.2",
+    "@hackbg/ganesha":           "^2.2.4",
     "@hackbg/runspec":           "^2.3",
     "why-is-node-still-running": "^1"
   },

@@ -4,9 +4,9 @@ importers:
 
   .:
     specifiers:
-      '@hackbg/ganesha': workspace:*
-      '@hackbg/runspec': workspace:*
-      why-is-node-still-running: ^1.0.0
+      '@hackbg/ganesha': ^2.2.4
+      '@hackbg/runspec': ^2.3
+      why-is-node-still-running: ^1
     dependencies:
       '@hackbg/ganesha': link:ganesha
       '@hackbg/runspec': link:toolbox/runspec
@@ -14,9 +14,9 @@ importers:
 
   ganesha:
     specifiers:
-      '@ganesha/core': workspace:^1.1
-      '@ganesha/node': workspace:^2.2.2
-      '@ganesha/node-legacy': workspace:^1
+      '@ganesha/core': workspace:^2
+      '@ganesha/node': workspace:^2.3.2
+      '@ganesha/node-legacy': workspace:^3.0.2
       '@hackbg/runspec': ^2.2
       c8: ^7.11.0
       chokidar: ^3.5.3
@@ -27,11 +27,11 @@ importers:
       '@ganesha/core': link:src/core
       '@ganesha/node': link:src/node
       '@ganesha/node-legacy': link:src/node-legacy
-      chokidar: 3.5.3
       cross-spawn: 7.0.3
     devDependencies:
       '@hackbg/runspec': link:../toolbox/runspec
       c8: 7.11.3
+      chokidar: 3.5.3
       typescript: 4.7.4
       vite: 2.9.14
 
@@ -47,7 +47,7 @@ importers:
 
   ganesha/src/node:
     specifiers:
-      '@ganesha/core': workspace:^1.1
+      '@ganesha/core': workspace:^2
       front-matter: ^4.0.2
       joycon: ^3.0.1
       jsonc-parser: ^3.0.0
@@ -61,7 +61,7 @@ importers:
 
   ganesha/src/node-legacy:
     specifiers:
-      '@ganesha/core': workspace:^1.1
+      '@ganesha/core': workspace:^2
       front-matter: ^4.0.2
       joycon: ^3.0.1
       jsonc-parser: ^3.0.0
@@ -77,14 +77,14 @@ importers:
 
   ganesha/src/rollup:
     specifiers:
-      '@ganesha/core': workspace:^1.1
+      '@ganesha/core': workspace:^2
     dependencies:
       '@ganesha/core': link:../core
 
   ganesha/src/tsc:
     specifiers:
-      '@ganesha/core': workspace:^1.1
-      '@ganesha/node': workspace:^2.1
+      '@ganesha/core': workspace:^2
+      '@ganesha/node': workspace:^2.3
       '@hackbg/ganesha': workspace:../..
       typescript: ^4.6.4
     dependencies:
@@ -187,7 +187,7 @@ importers:
       signal-exit: 3.0.7
     devDependencies:
       '@hackbg/izomorf': link:izomorf
-      '@types/node': 18.0.5
+      '@types/node': 18.0.6
       concurrently: 7.2.2
       typedoc: 0.23.0-beta.7_typescript@4.7.4
       typescript: 4.7.4
@@ -658,6 +658,10 @@ packages:
     resolution: {integrity: sha512-En7tneq+j0qAiVwysBD79y86MT3ModuoIJbe7JXp+sb5UAjInSShmK3nXXMioBzfF7rXC12hv12d4IyCVwN4dA==}
     dev: true
 
+  /@types/node/18.0.6:
+    resolution: {integrity: sha512-/xUq6H2aQm261exT6iZTMifUySEt4GR5KX8eYyY+C4MSNPqSh9oNIP7tz2GLKTlFaiBbgZNxffoR3CVRG+cljw==}
+    dev: true
+
   /@types/prettyjson/0.0.30:
     resolution: {integrity: sha512-BQ15wnnSvzlvDAVvd4t+zXjd9o6QAcfBeEUlZcinDYeb0A1xTfRBc0s8nxHlctojnsxDrbiG7amTqLWbXsiK7Q==}
     dev: true
@@ -755,6 +759,7 @@ packages:
     dependencies:
       normalize-path: 3.0.0
       picomatch: 2.3.1
+    dev: true
 
   /append-transform/2.0.0:
     resolution: {integrity: sha512-7yeyCEurROLQJFv5Xj4lEGTy0borxepjFv1g22oAdqFu//SrAlDl1O1Nxx15SH1RoliUml6p8dwJW9jvZughhg==}
@@ -869,6 +874,7 @@ packages:
   /binary-extensions/2.2.0:
     resolution: {integrity: sha512-jDctJ/IVQbZoJykoeHbhXpOlNBqGNcwXJKJog42E5HDPUwQTSdjCHdihjj0DlnheQ7blbT6dHOafNAiS8ooQKA==}
     engines: {node: '>=8'}
+    dev: true
 
   /bind-obj-methods/3.0.0:
     resolution: {integrity: sha512-nLEaaz3/sEzNSyPWRsN9HNsqwk1AUyECtGj+XwGdIi3xABnEqecvXtIJ0wehQXuuER5uZ/5fTs2usONgYjG+iw==}
@@ -1054,6 +1060,7 @@ packages:
       readdirp: 3.6.0
     optionalDependencies:
       fsevents: 2.3.2
+    dev: true
 
   /chownr/1.1.4:
     resolution: {integrity: sha512-jJ0bqzaylmJtVnNgzTeSOs8DPavpbYgEr/b0YL8/2GO3xJEhInFmhKMUnEJQjZumK7KXGFhUy89PrsJWlakBVg==}
@@ -1754,6 +1761,7 @@ packages:
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
     os: [darwin]
     requiresBuild: true
+    dev: true
     optional: true
 
   /function-bind/1.1.1:
@@ -1949,6 +1957,7 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       binary-extensions: 2.2.0
+    dev: true
 
   /is-core-module/2.9.0:
     resolution: {integrity: sha512-+5FPy5PnwmO3lvfMb0AsoPaBG+5KHUI0wYFXOtYPnVVVspTFUuMZNfNaNVRt3FZadstu2c8x23vykRW/NBoU6A==}
@@ -2428,6 +2437,7 @@ packages:
   /normalize-path/3.0.0:
     resolution: {integrity: sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA==}
     engines: {node: '>=0.10.0'}
+    dev: true
 
   /nth-check/2.1.1:
     resolution: {integrity: sha512-lqjrjmaOoAnWfMmBPL+XNnynZh2+swxiX3WUE0s4yEHI6m+AwrK2UZOimIRl3X/4QctVqS8AiZjFqyOGrMXb/w==}
@@ -2757,6 +2767,7 @@ packages:
     engines: {node: '>=8.10.0'}
     dependencies:
       picomatch: 2.3.1
+    dev: true
 
   /readonly-date/1.0.0:
     resolution: {integrity: sha512-tMKIV7hlk0h4mO3JTmmVuIlJVXjKk3Sep9Bf5OH0O+758ruuVkUy2J9SttDLm91IEX/WHlXPSpxMGjPj4beMIQ==}
