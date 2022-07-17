@@ -18,18 +18,15 @@ importers:
       '@ganesha/node': workspace:^2.2.2
       '@ganesha/node-legacy': workspace:^1
       '@hackbg/runspec': ^2.2
-      '@types/node': latest
       c8: ^7.11.0
       chokidar: ^3.5.3
       cross-spawn: ^7.0.3
       typescript: ^4.7
       vite: ^2.8.4
-      vsce: latest
     dependencies:
       '@ganesha/core': link:src/core
       '@ganesha/node': link:src/node
       '@ganesha/node-legacy': link:src/node-legacy
-      '@types/node': 18.0.5
       chokidar: 3.5.3
       cross-spawn: 7.0.3
     devDependencies:
@@ -37,7 +34,6 @@ importers:
       c8: 7.11.3
       typescript: 4.7.4
       vite: 2.9.14
-      vsce: 2.9.3
 
   ganesha/src/core:
     specifiers:
@@ -660,6 +656,7 @@ packages:
 
   /@types/node/18.0.5:
     resolution: {integrity: sha512-En7tneq+j0qAiVwysBD79y86MT3ModuoIJbe7JXp+sb5UAjInSShmK3nXXMioBzfF7rXC12hv12d4IyCVwN4dA==}
+    dev: true
 
   /@types/prettyjson/0.0.30:
     resolution: {integrity: sha512-BQ15wnnSvzlvDAVvd4t+zXjd9o6QAcfBeEUlZcinDYeb0A1xTfRBc0s8nxHlctojnsxDrbiG7amTqLWbXsiK7Q==}

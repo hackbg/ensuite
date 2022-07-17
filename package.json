@@ -1,14 +1,14 @@
 {
-  "name": "@hackbg/ensuite",
-  "version": "1.0.0",
-  "type": "module",
-  "main": "ensuite.js",
-  "bin": {
-    "ensuite": "ensuite.cjs"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/hackbg/ensuite"
+  "name":       "@hackbg/ensuite",
+  "version":    "1.0.0",
+  "type":       "module",
+  "main":       "ensuite.js",
+  "files":      [ "README.md", "ensuite.cjs", "ensuite.js" ],
+  "bin":        { "ensuite": "ensuite.cjs" },
+  "repository": { "type": "git", "url": "https://github.com/hackbg/ensuite" },
+  "scripts": {
+    "release:dry": "npm publish --dry-run",
+    "release:wet": "npm publish"
   },
   "dependencies": {
     "@hackbg/ganesha": "workspace:*",

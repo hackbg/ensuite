@@ -6,6 +6,8 @@
 
 </div>
 
+`npm i --save ensuite && npm exec ensuite SPEC.ts.md`
+
 ---
 
 This project defines and implements the **literate TDD workflow**,
