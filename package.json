@@ -1,14 +1,14 @@
 {
   "name":       "@hackbg/ensuite",
-  "version":    "1.0.1",
+  "version":    "1.0.2",
   "type":       "module",
   "main":       "ensuite.js",
   "files":      [ "README.md", "ensuite.cjs", "ensuite.js" ],
   "bin":        { "ensuite": "ensuite.cjs" },
   "repository": { "type": "git", "url": "https://github.com/hackbg/ensuite" },
   "scripts": {
-    "release:dry": "npm publish --dry-run",
-    "release:wet": "npm publish --access=public || true"
+    "release:dry": "izomorf dry",
+    "release:wet": "izomorf wet --access=public"
   },
   "dependencies": {
     "@hackbg/ganesha":           "^2.2.4",
