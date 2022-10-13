@@ -9,7 +9,8 @@ const argvCov    = argv.slice(0, doubleDash)
 // arguments for test runner
 const argvTest   = argv.slice(doubleDash + 1)
 
-require('child_process').execFileSync('c8', [...argvCov, 'ensuite', ...argvTest], {
-  env: process.env,
+const c8 = require('path').resolve(__dirname, 'node_modules', '.bin', 'c8')
+require('child_process').execFileSync(c8, [...argvCov, 'ensuite', ...argvTest], {
+  env: { ...process.env, Ganesha_NoSourceMap: 1 },
   stdio: 'inherit'
 })
