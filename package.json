@@ -7,16 +7,15 @@
   "bin":        { "ensuite": "ensuite.cjs" },
   "repository": { "type": "git", "url": "https://github.com/hackbg/ensuite" },
   "scripts": {
-    "release:dry": "izomorf dry",
-    "release:wet": "izomorf wet --access=public"
+    "ubik": "ubik"
   },
   "dependencies": {
-    "@hackbg/ganesha":           "^2.2.4",
-    "@hackbg/runspec":           "^2.3.1",
+    "@hackbg/ganesha":           "workspace:^2.3",
+    "@hackbg/runspec":           "workspace:^2.3.1",
     "why-is-node-still-running": "^1"
   },
   "devDependencies": {
-    "@hackbg/izomorf":           "^4.0.2"
+    "@hackbg/ubik":              "workspace:^1.2.2"
   },
   "workspace": true,
   "packages": [
