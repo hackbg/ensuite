@@ -1,21 +1,21 @@
 {
-  "name":       "@hackbg/ensuite",
-  "version":    "1.0.2",
-  "type":       "module",
-  "main":       "ensuite.js",
-  "files":      [ "README.md", "ensuite.cjs", "ensuite.js" ],
-  "bin":        { "ensuite": "ensuite.cjs" },
-  "repository": { "type": "git", "url": "https://github.com/hackbg/ensuite" },
-  "scripts": {
-    "ubik": "ubik"
-  },
+  "name":        "@hackbg/ensuite",
+  "version":     "1.0.2",
+  "type":        "module",
+  "main":        "ensuite.js",
+  "files":       [ "README.md", "ensuite.cjs", "ensuite.js" ],
+  "bin":         { "ensuite": "ensuite.cli.cjs" },
+  "repository":  { "type": "git", "url": "https://github.com/hackbg/ensuite" },
+  "scripts":     { "ubik": "ubik" },
+  "description": "Literate test runner.",
   "dependencies": {
-    "@hackbg/ganesha":           "workspace:^2.3",
-    "@hackbg/runspec":           "workspace:^2.3.1",
+    "c8": "^7.12",
+    "@hackbg/ganesha": "workspace:^2.3",
+    "@hackbg/runspec": "workspace:^2.3.1",
     "why-is-node-still-running": "^1"
   },
   "devDependencies": {
-    "@hackbg/ubik":              "workspace:^1.2.2"
+    "@hackbg/ubik": "workspace:^1.2.2"
   },
   "workspace": true,
   "packages": [
