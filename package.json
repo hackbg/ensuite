@@ -1,10 +1,10 @@
 {
   "name":        "@hackbg/ensuite",
-  "version":     "1.0.2",
+  "version":     "1.1.0",
   "type":        "module",
   "main":        "ensuite.js",
   "files":       [ "README.md", "ensuite.cjs", "ensuite.js" ],
-  "bin":         { "ensuite": "ensuite.cli.cjs" },
+  "bin":         { "ensuite": "ensuite.cli.cjs", "ensuite-cov": "ensuite-cov.cli.cjs" },
   "repository":  { "type": "git", "url": "https://github.com/hackbg/ensuite" },
   "scripts":     { "ubik": "ubik" },
   "description": "Literate test runner.",
