@@ -11,7 +11,7 @@
   "dependencies": {
     "c8": "^7.12",
     "@hackbg/ganesha": "workspace:^2.3",
-    "@hackbg/runspec": "workspace:^2.3.1",
+    "@hackbg/spec":    "workspace:^1",
     "why-is-node-still-running": "^1"
   },
   "devDependencies": {
