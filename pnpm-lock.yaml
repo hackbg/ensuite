@@ -22,7 +22,7 @@ importers:
       '@ganesha/core': workspace:^2
       '@ganesha/node': workspace:^2.3.3
       '@ganesha/node-legacy': workspace:^3.0.2
-      '@hackbg/runspec': ^2.2
+      '@hackbg/spec': ^1
       c8: ^7.11.0
       chokidar: ^3.5.3
       cross-spawn: ^7.0.3
@@ -34,7 +34,7 @@ importers:
       '@ganesha/node-legacy': link:src/node-legacy
       cross-spawn: 7.0.3
     devDependencies:
-      '@hackbg/runspec': 2.3.1
+      '@hackbg/spec': link:../toolbox/spec
       c8: 7.11.3
       chokidar: 3.5.3
       typescript: 4.7.4
@@ -147,7 +147,7 @@ importers:
       '@ganesha/core': workspace:*
       '@ganesha/node': workspace:*
       '@ganesha/rollup': workspace:*
-      '@hackbg/runspec': ^2.2
+      '@hackbg/spec': ^1
       mkdirp: ^1.0.4
       tap: ^15.0.9
       typescript: ^4.7
@@ -156,7 +156,7 @@ importers:
       '@ganesha/core': link:../src/core
       '@ganesha/node': link:../src/node
       '@ganesha/rollup': link:../src/rollup
-      '@hackbg/runspec': 2.3.1
+      '@hackbg/spec': link:../../toolbox/spec
       mkdirp: 1.0.4
       tap: 15.2.3_typescript@4.7.4
       typescript: 4.7.4
@@ -210,10 +210,12 @@ importers:
   toolbox/cmds:
     specifiers:
       '@hackbg/ganesha': ^2.2.5
+      '@hackbg/hide': workspace:^1
       '@hackbg/logs': workspace:^1
       '@hackbg/task': workspace:^1
       '@hackbg/time': workspace:^1
     dependencies:
+      '@hackbg/hide': link:../hide
       '@hackbg/logs': link:../logs
       '@hackbg/task': link:../task
       '@hackbg/time': link:../time
@@ -317,6 +319,12 @@ importers:
     devDependencies:
       '@hackbg/ganesha': link:../../ganesha
 
+  toolbox/into:
+    specifiers:
+      '@hackbg/ganesha': ^2.2.5
+    devDependencies:
+      '@hackbg/ganesha': link:../../ganesha
+
   toolbox/logs:
     specifiers:
       '@hackbg/allo': workspace:^1
@@ -337,6 +345,12 @@ importers:
       '@hackbg/ganesha': link:../../ganesha
 
   toolbox/oops:
+    specifiers:
+      '@hackbg/ganesha': ^2.2.5
+    devDependencies:
+      '@hackbg/ganesha': link:../../ganesha
+
+  toolbox/over:
     specifiers:
       '@hackbg/ganesha': ^2.2.5
     devDependencies:
@@ -727,11 +741,6 @@ packages:
       algoliasearch: 4.14.0
     transitivePeerDependencies:
       - '@algolia/client-search'
-    dev: true
-
-  /@hackbg/runspec/2.3.1:
-    resolution: {integrity: sha512-L1Fus4JBg3hb3W2+LUZxj5hlHDxh4TbTj9zjSiQA+WscFroGPHHFiLCyJQ7y7/WT9CXtUCTrSzygFWQXjFxtlg==}
-    hasBin: true
     dev: true
 
   /@istanbuljs/load-nyc-config/1.1.0:
