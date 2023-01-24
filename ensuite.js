@@ -1,5 +1,5 @@
 import why from 'why-is-node-still-running'
-import { runSpec } from '@hackbg/runspec'
+import { runSpec } from '@hackbg/spec'
 import { resolve} from 'path'
 main(...process.argv.slice(2))
 export async function main (root, ...specs) {
