@@ -1,13 +1,13 @@
 {
   "name":        "@hackbg/ensuite",
-  "version":     "1.1.0",
+  "version":     "1.1.1",
   "type":        "module",
   "main":        "ensuite.js",
   "files":       [ "README.md", "ensuite.cjs", "ensuite.js" ],
   "bin":         { "ensuite": "ensuite.cli.cjs", "ensuite-cov": "ensuite-cov.cli.cjs" },
   "repository":  { "type": "git", "url": "https://github.com/hackbg/ensuite" },
   "scripts":     { "ubik": "ubik" },
-  "description": "Literate test runner.",
+  "description": "Literate test runner. Write tests in Markdown code blocks. Supports TypeScript without Babel.",
   "dependencies": {
     "c8": "^7.12",
     "@hackbg/ganesha": "workspace:^2.3",
