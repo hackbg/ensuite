@@ -116,7 +116,7 @@ importers:
       '@ganesha/vscode-shared': link:../shared
       vscode-languageclient: 7.1.0-next.5
     devDependencies:
-      '@types/vscode': 1.75.0
+      '@types/vscode': 1.75.1
 
   ganesha/src/vsc/server:
     specifiers:
@@ -251,6 +251,7 @@ importers:
   toolbox/dock:
     specifiers:
       '@hackbg/allo': workspace:^1
+      '@hackbg/ganesha': ^2.2.5
       '@hackbg/logs': workspace:^1
       '@types/dockerode': ^3.3.14
       colors: 1.4.0
@@ -261,6 +262,7 @@ importers:
       colors: 1.4.0
       dockerode: 3.3.4
     devDependencies:
+      '@hackbg/ganesha': link:../../ganesha
       '@types/dockerode': 3.3.14
 
   toolbox/dump:
@@ -952,8 +954,8 @@ packages:
     resolution: {integrity: sha512-dDZH/tXzwjutnuk4UacGgFRwV+JSLaXL1ikvidfJprkb7L9Nx1njcRHHmi3Dsvt7pgqqTEeucQuOrWHPFgzVHA==}
     dev: true
 
-  /@types/vscode/1.75.0:
-    resolution: {integrity: sha512-SAr0PoOhJS6FUq5LjNr8C/StBKALZwDVm3+U4pjF/3iYkt3GioJOPV/oB1Sf1l7lROe4TgrMyL5N1yaEgTWycw==}
+  /@types/vscode/1.75.1:
+    resolution: {integrity: sha512-emg7wdsTFzdi+elvoyoA+Q8keEautdQHyY5LNmHVM4PTpY8JgOTVADrGVyXGepJ6dVW2OS5/xnLUWh+nZxvdiA==}
     dev: true
 
   /@types/web-bluetooth/0.0.16:
