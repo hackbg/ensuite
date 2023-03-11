@@ -13,14 +13,14 @@ if (require.main === module) {
     .watchFile(require.resolve(self), {interval: 100}, (...args)=>require(self).reload(...args))
 }
 
-const app = module.exports
+let app = module.exports
 
 app.reload = (current, previous) => {
   console.log('Reloading')
   const old = require.cache[require.resolve(self)]
   delete require.cache[require.resolve(self)]
   try {
-    require(self)
+    app = require(self)
   } catch (e) {
     console.warn('Reload failed', e)
     require.cache[require.resolve(self)] = old
@@ -58,10 +58,10 @@ app.template = (...elements) => [
   '</html>'
 ].join('\n')
 
-app.renderFile = (url) => {
-  const data = require('fs').readFileSync(require('path').join(process.cwd(), url), 'utf8')
-  const content = require('markdown-it')({ highlight }).render(data)
-  return `<style>${app.contentStyle}</style>${content}`
+app.markdown = (()=>{
+  const md = require('markdown-it')({ highlight })
+  md.use(require('markdown-it-table-of-contents'), { includeLevel: [1,2,3] })
+  return md
   function highlight (str, lang) {
     if (lang && require('highlight.js').getLanguage(lang)) {
       try {
@@ -70,6 +70,12 @@ app.renderFile = (url) => {
     }
     return ''
   }
+})
+
+app.renderFile = (url) => {
+  const data = require('fs').readFileSync(require('path').join(process.cwd(), url), 'utf8')
+  const content = app.markdown().render(`[[toc]]\n\n${data}`)
+  return `<style>${app.contentStyle}</style>${content}`
 }
 
 app.renderFileTree = async () => {
@@ -109,6 +115,10 @@ pre { border: 1px solid #888; padding: 0.5rem; background: #ffd; overflow-x: aut
 .hljs-keyword { font-weight: bold }
 .hljs-string { font-style: italic }
 .hljs-comment { color: #484; font-weight: bold }
+.table-of-contents { float: right; background: #eee; border: 1px solid #888; margin: 1rem 0 1rem 2rem; padding: 1rem 1rem 0 0; font-size: 0.9rem; }
+.table-of-contents li > ul { margin-top: 0.5rem }
+.table-of-contents > ul > li { font-weight: bold }
+.table-of-contents > ul > li > ul > li { font-weight: normal }
 `
 
 //require('fs').readFileSync(require('path').resolve(require.resolve('highlight.js'), '../../styles/github.css'))
