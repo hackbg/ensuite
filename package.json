@@ -1,18 +1,34 @@
 {
-  "name":        "@hackbg/ensuite",
-  "version":     "1.1.1",
-  "type":        "module",
-  "main":        "ensuite.js",
-  "files":       [ "README.md", "ensuite.cjs", "ensuite.js" ],
-  "bin":         { "ensuite": "ensuite.cli.cjs", "ensuite-cov": "ensuite-cov.cli.cjs" },
-  "repository":  { "type": "git", "url": "https://github.com/hackbg/ensuite" },
-  "scripts":     { "ubik": "ubik" },
+  "name": "@hackbg/ensuite",
+  "version": "1.2.0",
+  "main": "ensuite.mjs",
+  "files": [
+    "README.md",
+    "*.cjs",
+    "*.mjs"
+  ],
+  "bin": {
+    "ensuite":     "ensuite.cli.cjs",
+    "ensuite-cov": "ensuite-cov.cli.cjs",
+    "ensuite-dev": "ensuite-dev.cli.cjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hackbg/ensuite"
+  },
+  "scripts": {
+    "ubik": "ubik"
+  },
   "description": "Literate test runner. Write tests in Markdown code blocks. Supports TypeScript without Babel.",
   "dependencies": {
     "c8": "^7.12",
     "@hackbg/ganesha": "workspace:^2.3",
-    "@hackbg/spec":    "workspace:^1",
-    "why-is-node-still-running": "^1"
+    "@hackbg/spec": "workspace:^1",
+    "why-is-node-still-running": "^1",
+    "glob": "^9.2.1",
+    "highlight.js": "^11.7.0",
+    "markdown-it": "^13.0.1",
+    "markdown-it-table-of-contents": "^0.6.0"
   },
   "devDependencies": {
     "@hackbg/ubik": "workspace:^1.2.2"
