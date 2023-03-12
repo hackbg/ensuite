@@ -61,7 +61,7 @@ app.template = (...elements) => [
 app.markdown = (()=>{
   const md = require('markdown-it')({ highlight })
   md.use(require('markdown-it-anchor').default)
-  md.use(require('markdown-it-table-of-contents'), { includeLevel: [1,2,3] })
+  md.use(require('markdown-it-table-of-contents'), { includeLevel: [1,2,3,4] })
   return md
   function highlight (str, lang) {
     if (lang && require('highlight.js').getLanguage(lang)) {
