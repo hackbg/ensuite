@@ -61,7 +61,7 @@ app.template = (...elements) => [
 app.markdown = (()=>{
   const md = require('markdown-it')({ highlight })
   md.use(require('markdown-it-anchor').default)
-  md.use(require('markdown-it-table-of-contents'), { includeLevel: [1,2,3,4] })
+  md.use(require('markdown-it-table-of-contents'), { includeLevel: [2,3,4] })
   return md
   function highlight (str, lang) {
     if (lang && require('highlight.js').getLanguage(lang)) {
@@ -120,6 +120,9 @@ pre { border: 1px solid #888; padding: 0.5rem; background: #ffd; overflow-x: aut
 .table-of-contents li > ul { margin-top: 0.5rem }
 .table-of-contents > ul > li { font-weight: bold }
 .table-of-contents > ul > li > ul > li { font-weight: normal }
+
+th { text-transform: uppercase; font-size: 0.8em; letter-spacing: 1px; background: #333; color: #eee; font-weight: bold; text-align: left; padding: 0.5rem; vertical-align: bottom; }
+td { background: #eee; padding: 0.25rem 0.5rem }
 `
 
 //require('fs').readFileSync(require('path').resolve(require.resolve('highlight.js'), '../../styles/github.css'))
