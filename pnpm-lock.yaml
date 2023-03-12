@@ -11,6 +11,7 @@ importers:
       glob: ^9.2.1
       highlight.js: ^11.7.0
       markdown-it: ^13.0.1
+      markdown-it-anchor: ^8.6.7
       markdown-it-table-of-contents: ^0.6.0
       why-is-node-still-running: ^1
     dependencies:
@@ -20,6 +21,7 @@ importers:
       glob: 9.2.1
       highlight.js: 11.7.0
       markdown-it: 13.0.1
+      markdown-it-anchor: 8.6.7_markdown-it@13.0.1
       markdown-it-table-of-contents: 0.6.0
       why-is-node-still-running: 1.0.0
     devDependencies:
@@ -3174,6 +3176,15 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       semver: 6.3.0
+
+  /markdown-it-anchor/8.6.7_markdown-it@13.0.1:
+    resolution: {integrity: sha512-FlCHFwNnutLgVTflOYHPW2pPcl2AACqVzExlkGQNsi4CJgqOHN7YTgDd4LuhgN1BFO3TS0vLAruV1Td6dwWPJA==}
+    peerDependencies:
+      '@types/markdown-it': '*'
+      markdown-it: '*'
+    dependencies:
+      markdown-it: 13.0.1
+    dev: false
 
   /markdown-it-table-of-contents/0.6.0:
     resolution: {integrity: sha512-jHvEjZVEibyW97zEYg19mZCIXO16lHbvRaPDkEuOfMPBmzlI7cYczMZLMfUvwkhdOVQpIxu3gx6mgaw46KsNsQ==}

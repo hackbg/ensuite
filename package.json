@@ -8,7 +8,7 @@
     "*.mjs"
   ],
   "bin": {
-    "ensuite":     "ensuite.cli.cjs",
+    "ensuite": "ensuite.cli.cjs",
     "ensuite-cov": "ensuite-cov.cli.cjs",
     "ensuite-dev": "ensuite-dev.cli.cjs"
   },
@@ -21,14 +21,15 @@
   },
   "description": "Literate test runner. Write tests in Markdown code blocks. Supports TypeScript without Babel.",
   "dependencies": {
-    "c8": "^7.12",
     "@hackbg/ganesha": "workspace:^2.3",
     "@hackbg/spec": "workspace:^1",
-    "why-is-node-still-running": "^1",
+    "c8": "^7.12",
     "glob": "^9.2.1",
     "highlight.js": "^11.7.0",
     "markdown-it": "^13.0.1",
-    "markdown-it-table-of-contents": "^0.6.0"
+    "markdown-it-anchor": "^8.6.7",
+    "markdown-it-table-of-contents": "^0.6.0",
+    "why-is-node-still-running": "^1"
   },
   "devDependencies": {
     "@hackbg/ubik": "workspace:^1.2.2"
