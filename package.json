@@ -21,7 +21,7 @@
   },
   "description": "Literate test runner. Write tests in Markdown code blocks. Supports TypeScript without Babel.",
   "dependencies": {
-    "@hackbg/ganesha": "workspace:^2.3",
+    "@hackbg/ganesha": "workspace:^3",
     "@hackbg/spec": "workspace:^1",
     "c8": "^7.12",
     "glob": "^9.2.1",
