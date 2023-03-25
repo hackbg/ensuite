@@ -71,11 +71,11 @@ app.markdown = (()=>{
     }
     return ''
   }
-})
+})()
 
 app.renderFile = (url) => {
   const data = require('fs').readFileSync(require('path').join(process.cwd(), url), 'utf8')
-  const content = app.markdown().render(`[[toc]]\n\n${data}`)
+  const content = app.markdown.render(`[[toc]]\n\n${data}`)
   return `<style>${app.contentStyle}</style>${content}`
 }
 
