@@ -11,7 +11,8 @@
     "ensuite": "ensuite.cli.cjs",
     "ensuite-cov": "ensuite-cov.cli.cjs",
     "ensuite-dev": "ensuite-dev.cli.cjs",
-    "ensuite-render": "ensuite-render.cli.cjs"
+    "ensuite-render": "ensuite-render.cli.cjs",
+    "ensuite-reload": "ensuite-reload.cli.cjs"
   },
   "repository": {
     "type": "git",
