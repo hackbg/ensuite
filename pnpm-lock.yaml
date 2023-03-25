@@ -4,7 +4,7 @@ importers:
 
   .:
     specifiers:
-      '@hackbg/ganesha': workspace:^2.3
+      '@hackbg/ganesha': workspace:^3
       '@hackbg/spec': workspace:^1
       '@hackbg/ubik': workspace:^1.2.2
       c8: ^7.12
@@ -14,6 +14,7 @@ importers:
       markdown-it-anchor: ^8.6.7
       markdown-it-table-of-contents: ^0.6.0
       why-is-node-still-running: ^1
+      ws: ^8.13.0
     dependencies:
       '@hackbg/ganesha': link:ganesha
       '@hackbg/spec': link:toolbox/spec
@@ -24,6 +25,7 @@ importers:
       markdown-it-anchor: 8.6.7_markdown-it@13.0.1
       markdown-it-table-of-contents: 0.6.0
       why-is-node-still-running: 1.0.0
+      ws: 8.13.0
     devDependencies:
       '@hackbg/ubik': link:toolbox/ubik
 
@@ -4828,6 +4830,19 @@ packages:
       signal-exit: 3.0.7
       typedarray-to-buffer: 3.1.5
     dev: true
+
+  /ws/8.13.0:
+    resolution: {integrity: sha512-x9vcZYTrFPC7aSIbj7sRCYo7L/Xb8Iy+pW0ng0wt2vCJv7M9HOMy0UoN3rr+IFC7hb7vXoqS+P9ktyLLLhO+LA==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: '>=5.0.2'
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
+    dev: false
 
   /xml2js/0.4.23:
     resolution: {integrity: sha512-ySPiMjM0+pLDftHgXY4By0uswI3SPKLDw/i3UXbnO8M/p28zqexCUoPmQFrYD+/1BzhGJSs2i1ERWKJAtiLrug==}

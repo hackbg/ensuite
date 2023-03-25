@@ -29,7 +29,8 @@
     "markdown-it": "^13.0.1",
     "markdown-it-anchor": "^8.6.7",
     "markdown-it-table-of-contents": "^0.6.0",
-    "why-is-node-still-running": "^1"
+    "why-is-node-still-running": "^1",
+    "ws": "^8.13.0"
   },
   "devDependencies": {
     "@hackbg/ubik": "workspace:^1.2.2"
