@@ -1,0 +1,39 @@
+html { height: 100% }
+body { font-family: sans-serif; margin: 0; padding: 0; display: flex; flex-flow: row nowrap; width: 100%; min-height: 100% }
+ul { margin: 0; padding-left: 1rem; list-style: none }
+body > ul { font-family: monospace; font-size: 0.8rem; }
+body > ul { background: #eee; padding: 1rem; border-right: 1px solid #fff; position: fixed; overflow: auto; top: 1rem; bottom: 1rem; left: 1rem; right: auto; box-shadow: 3px 3px 1px rgba(33,33,33,0.3) }
+body > ul { opacity: 0.5; border-radius: 0.5rem; }
+body > ul:hover { opacity: 1.0 }
+body > ul:not(:focus) {}
+body > ul a { font-weight: bold; color: black }
+body > iframe { flex-grow: 1; border: none; border-left: 1px solid #ddd }
+content { margin: 0 1rem 0 2rem; max-width: 60rem; padding-bottom: 1rem }
+pre { border: 1px solid #888; padding: 0.5rem; background: #ffd; overflow-x: auto }
+.hljs-import { font-weight: bold }
+.hljs-keyword { font-weight: bold }
+.hljs-string { font-style: italic }
+.hljs-comment { color: #484; font-weight: bold }
+.table-of-contents { float: right; background: #eee; border: 1px solid #888; margin: 1rem 0 1rem 2rem; padding: 1rem 1rem 0 0; font-size: 0.9rem; }
+.table-of-contents li > ul { margin-top: 0.5rem }
+.table-of-contents > ul > li { font-weight: bold }
+.table-of-contents > ul > li > ul > li { font-weight: normal }
+
+th { text-transform: uppercase; font-size: 0.8em; letter-spacing: 1px; background: #333; color: #eee; font-weight: bold; text-align: left; padding: 0.5rem; vertical-align: bottom; }
+td { background: #eee; padding: 0.25rem 0.5rem }
+
+#toggle-file-tree ~ ul {
+  width: 0;
+  height: 0;
+  visibility: hidden;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+#toggle-file-tree:checked ~ ul {
+  width: auto;
+  height: auto;
+  visibility: visible;
+  overflow: auto;
+  max-width: 30rem;
+}

@@ -1,6 +1,19 @@
 #!/usr/bin/env node
 
-const self = './ensuite-dev.cli.cjs'
+let app = module.exports
+
+const {basename} = require('path')
+const self = `./${basename(__filename)}`
+
+app.watch = file => {
+  console.log('Watch', file)
+  const watcher = require('fs').watchFile(
+    file,
+    {interval: 100},
+    (...args)=>require(self).reload(...args)
+  )
+  return file
+}
 
 if (require.main === module) {
   const [dir = '.', port = 1234] = process.argv.slice(2)
@@ -9,11 +22,8 @@ if (require.main === module) {
   require('http')
     .createServer((req, res)=>require(self).handle(req, res))
     .listen(port, () => console.log(`Listening on ${port}`))
-  require('fs')
-    .watchFile(require.resolve(self), {interval: 100}, (...args)=>require(self).reload(...args))
+  app.watch(require.resolve(self))
 }
-
-let app = module.exports
 
 app.reload = (current, previous) => {
   console.log('Reloading')
@@ -27,6 +37,9 @@ app.reload = (current, previous) => {
   }
 }
 
+app.loadWatch = file =>
+  require('fs').readFileSync(app.watch(file), 'utf8')
+
 app.handle = async (req, res) => {
   try {
     const data = await app.render(req)
@@ -39,16 +52,15 @@ app.handle = async (req, res) => {
 }
 
 app.render = async (req) => {
-  const url =  new URL(req.url, 'http://null')
+  const url = new URL(req.url, 'http://null')
   if (url.pathname === '/') {
-    return app.template(
-      await app.renderFileTree(),
-      `<iframe name="content" src="${url.searchParams.get('page')??''}"></iframe>`,
-      `<script>${app.navigationScript}</script>`
-    )
-  } else {
-    return app.template(`<content>`, app.renderFile(url.pathname), '</content>')
+    const tree = await app.renderFileTree()
+    const src = url.searchParams.get('page')??'about:blank'
+    const iframe = `<iframe name="content" src="${src}"></iframe>`
+    const script = `<script>${app.navigationScript}</script>`
+    return app.template(tree, iframe, script)
   }
+  return app.template(`<content>`, app.renderFile(url.pathname), '</content>')
 }
 
 app.template = (...elements) => [
@@ -74,13 +86,17 @@ app.markdown = (()=>{
 })()
 
 app.renderFile = (url) => {
-  const data = require('fs').readFileSync(require('path').join(process.cwd(), url), 'utf8')
+  const data = app.loadWatch(require('path').join(process.cwd(), url))
   const content = app.markdown.render(`[[toc]]\n\n${data}`)
   return `<style>${app.contentStyle}</style>${content}`
 }
 
 app.renderFileTree = async () => {
-  const files = (await (require('glob'))('**/*.ts.md')).sort().map(path=>path.split(require('path').sep))
+  const files = [...new Set([
+    ...(await (require('glob'))('**/*.md')),
+    ...(await (require('glob'))('**/*.ts.md')),
+    ...(await (require('glob'))('**/*.pug'))
+  ])].sort().map(path=>path.split(require('path').sep))
   const tree = {}
   // Convert list of paths into tree
   for (const path of files) {
@@ -90,40 +106,28 @@ app.renderFileTree = async () => {
     }
   }
   // Return the rendered tree
-  return (function renderTree (tree, prev = '') {
-    let output = ''
-    for (const name of Object.keys(tree).sort()) {
-      if (Object.keys(tree[name]).length === 0) {
-        output += `<li><strong><a target="content" href="${prev}/${name}">${name}</a></strong></li>`
-      } else {
-        output += `<li>${name}${renderTree(tree[name], prev+'/'+name)}</li>`
-      }
-    }
-    return `<ul>${output}</ul>`
-  })(tree)
+  return checkboxHack('toggle-file-tree', renderTree(tree))
 }
 
-app.style = `
-html { height: 100% }
-body { font-family: sans-serif; margin: 0; padding: 0; display: flex; flex-flow: row nowrap; width: 100%; min-height: 100% }
-ul { margin: 0; padding-left: 1rem; list-style: none }
-body > ul { background: #eee; padding: 1rem; border-right: 1px solid #fff }
-body > ul a { font-weight: bold; color: black }
-body > iframe { flex-grow: 1; border: none; border-left: 1px solid #ddd }
-content { margin: 0 1rem 0 2rem; max-width: 60rem; padding-bottom: 1rem }
-pre { border: 1px solid #888; padding: 0.5rem; background: #ffd; overflow-x: auto }
-.hljs-import { font-weight: bold }
-.hljs-keyword { font-weight: bold }
-.hljs-string { font-style: italic }
-.hljs-comment { color: #484; font-weight: bold }
-.table-of-contents { float: right; background: #eee; border: 1px solid #888; margin: 1rem 0 1rem 2rem; padding: 1rem 1rem 0 0; font-size: 0.9rem; }
-.table-of-contents li > ul { margin-top: 0.5rem }
-.table-of-contents > ul > li { font-weight: bold }
-.table-of-contents > ul > li > ul > li { font-weight: normal }
+function checkboxHack (id, control) {
+  const label = `<label for="${id}"></label>`
+  const input = `<input type="checkbox" id="${id}">`
+  return `${label}${input}${control}`
+}
 
-th { text-transform: uppercase; font-size: 0.8em; letter-spacing: 1px; background: #333; color: #eee; font-weight: bold; text-align: left; padding: 0.5rem; vertical-align: bottom; }
-td { background: #eee; padding: 0.25rem 0.5rem }
-`
+function renderTree (tree, prev = '') {
+  let output = ''
+  for (const name of Object.keys(tree).sort()) {
+    if (Object.keys(tree[name]).length === 0) {
+      output += `<li><strong><a target="content" href="${prev}/${name}">${name}</a></strong></li>`
+    } else {
+      output += `<li>${name}${renderTree(tree[name], prev+'/'+name)}</li>`
+    }
+  }
+  return `<ul>${output}</ul>`
+}
+
+app.style = app.loadWatch(require('path').resolve(__dirname, 'ensuite.css'))
 
 //require('fs').readFileSync(require('path').resolve(require.resolve('highlight.js'), '../../styles/github.css'))
 app.contentStyle = `
