@@ -11,27 +11,38 @@ module.exports = (app = {}) => {
 
     watch: watched,
 
-    loadWatch: file => readFileSync(app.watch(file), 'utf8'),
+    watchRead (file) {
+      return readFileSync(app.watch(file), 'utf8')
+    },
+
+    watchRequire (file) {
+      app.watch(require.resolve(file))
+      return require(file)
+    },
 
     root: watched(app.root ?? `./${basename(__filename)}`),
 
     watchers: app.watchers ?? [],
 
-    reload: (name, current, previous) => {
+    reload (name, current, previous) {
       console.log('Changed', name)
+      const old = cache[name]
+      delete cache[name]
+      let update
+      try {
+        console.log('Reloading', name)
+        update = require(name)
+      } catch (e) {
+        console.warn('Reload failed', e)
+        cache[name] = old
+        return
+      }
+      const updated = update(app)
       console.log('Flushing watchers')
       app.watchers.forEach(w=>{w.close();w.unref()})
       app.watchers = []
-      const old = cache[resolve(app.root)]
-      delete cache[resolve(app.root)]
-      try {
-        console.log('Reloading', app.root)
-        Object.assign(app, require(app.root)(app))
-        watched(app.root)
-      } catch (e) {
-        console.warn('Reload failed', e)
-        cache[resolve(app.root)] = old
-      }
+      Object.assign(app, updated)
+      watched(app.root)
     },
 
   })
@@ -47,7 +58,7 @@ module.exports = (app = {}) => {
 }
 
 if (module === main) {
-  console.log('Starting...', process.argv)
+  console.log('Starting...')
   chdir(process.argv[3] ?? '.')
   require(process.argv[2])(module.exports({
     root: process.argv[2],
