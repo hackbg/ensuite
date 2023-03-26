@@ -2,6 +2,8 @@
 
 const { join, sep, resolve } = require('path')
 const { createServer } = require('http')
+const { statSync } = require('fs')
+
 const markdownIt = require('markdown-it')
 const markdownItAnchor = require('markdown-it-anchor').default
 const markdownItToc = require('markdown-it-table-of-contents')
@@ -34,7 +36,7 @@ module.exports = (app = {}) => Object.assign(app, {
       const input = '' //`<input id="prompt" type="text">`
       return app.template(tree, input, iframe, script)
     }
-    return app.renderFile(url.pathname)
+    return app.renderContent(url.pathname)
   },
 
   template: (...elements) => [
@@ -59,7 +61,7 @@ module.exports = (app = {}) => Object.assign(app, {
     }
   })(),
 
-  renderFile (url) {
+  renderContent (url) {
     console.log('Rendering', url)
     if (url.endsWith('.md')) {
       const data = app.watchRead(join(process.cwd(), url))
@@ -73,16 +75,19 @@ module.exports = (app = {}) => Object.assign(app, {
 
   async renderFileTree () {
 
-    const files = [...new Set([
+    const paths = [...new Set([
       ...(await glob('**/*.md')),
       ...(await glob('**/*.ts.md')),
       ...(await glob('**/*.pug'))
-    ])].sort().map(path=>path.split(sep))
+    ])]
+      .sort()
+      .map(path=>path.split(sep))
+      .sort((a,b)=>a.length-b.length)
 
     const tree = {}
 
     // Convert list of paths into tree
-    for (const path of files) {
+    for (const path of paths) {
       let dir = tree
       for (const fragment of path) {
         dir = (dir[fragment] ??= {})
@@ -92,6 +97,22 @@ module.exports = (app = {}) => Object.assign(app, {
     // Return the rendered tree
     return app.checkboxHack('toggle-file-tree', '', app.renderTree(tree))
 
+  },
+
+  renderTree (tree, prev = '') {
+    let output = ''
+
+    for (const name of Object.keys(tree).filter(x=>Object.keys(tree[x]).length === 0).sort()) {
+      const path = `${prev}/${name}`
+      output += `<li><a target="content" href="${path}">${name}</a></li>`
+    }
+
+    for (const name of Object.keys(tree).filter(x=>Object.keys(tree[x]).length > 0).sort()) {
+      const path = `${prev}/${name}`
+      output += `<li>${app.checkboxHack(path, name, app.renderTree(tree[name], prev+'/'+name))}</li>`
+    }
+
+    return `<ul>${output}</ul>`
   },
 
   style: app.watchRead(resolve(__dirname, 'ensuite.css')),
@@ -110,18 +131,5 @@ module.exports = (app = {}) => Object.assign(app, {
     const input = `<input type="checkbox" class="toggle" id="${id}">`
     return `${input}${label}${control}`
   },
-
-  renderTree (tree, prev = '') {
-    let output = ''
-    for (const name of Object.keys(tree).sort()) {
-      const path = `${prev}/${name}`
-      if (Object.keys(tree[name]).length === 0) {
-        output += `<li><a target="content" href="${path}">${name}</a></li>`
-      } else {
-        output += `<li>${app.checkboxHack(path, name, app.renderTree(tree[name], prev+'/'+name))}</li>`
-      }
-    }
-    return `<ul>${output}</ul>`
-  }
 
 })
