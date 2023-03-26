@@ -34,7 +34,7 @@ module.exports = (app = {}) => Object.assign(app, {
       const input = '' //`<input id="prompt" type="text">`
       return app.template(tree, input, iframe, script)
     }
-    return app.template(`<content>`, app.renderFile(url.pathname), '</content>')
+    return app.renderFile(url.pathname)
   },
 
   template: (...elements) => [
@@ -65,7 +65,7 @@ module.exports = (app = {}) => Object.assign(app, {
       const data = app.watchRead(join(process.cwd(), url))
       const content = app.markdown.render(`[[toc]]\n\n${data}`)
       const style = `<style>${app.contentStyle}</style>`
-      return `${style}${content}`
+      return app.template(`${style}<content>${content}</content>`)
     } else if (url.endsWith('.pug')) {
       return this.watchRequire('./ensuite-render.cli.cjs')()
     }
