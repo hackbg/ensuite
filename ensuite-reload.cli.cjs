@@ -1,76 +1,67 @@
 #!/usr/bin/env node
 
-const {basename, resolve} = require('path')
-const {watch, readFileSync} = require('fs')
+const {basename, dirname, resolve} = require('path')
 const {chdir} = require('process')
-const {main, cache} = require
 
-module.exports = (
-
-  app = {},
-
-  watch = (file, cb = (event, name) => console.info('Updated:', name)) => {
-    if (!cb) throw new Error(`No watch callback for ${file}`)
-    file = resolve(file)
-    console.log('Watching:', file)
-    app.watchers??=[]
-    return require('fs').watch(file, {interval: 100}, cb)
-  }
-
-) => Object.assign(app, {
-
+module.exports = Object.assign(runMain, {
   watch,
-
-  watchers: app.watchers ?? [
-    watch(__filename, (...args)=>app.reload(__filename, ...args)),
-  ],
-
-  watchRead: file => {
-    console.log('Reading:', file)
-    app.watch(file)
-    return readFileSync(file, 'utf8')
-  },
-
-  watchRequire: file => {
-    console.log('Requiring:', file)
-    app.watch(require.resolve(file), (...args)=>app.reload(file, ...args))
-    return require(file)
-  },
-
-  root: (app.root && typeof app.root === 'object')
-    ? app.root
-    : watch(app.root || `./${basename(__filename)}`),
-
-  reload (name, current, previous) {
-    console.log('Changed:', name)
-    const old = cache[name]
-    delete cache[name]
-    let update
-    try {
-      console.log('Reloading:', name)
-      update = require(name)
-    } catch (e) {
-      console.warn('Reload failed:', e)
-      cache[name] = old
-      return
-    }
-    const updated = update(app)
-    console.log('Flushing watchers...')
-    app.watchers.forEach(w=>{w.close();w.unref()})
-    Object.assign(app, updated, {
-      watchers: [
-        app.watch(__filename, (...args)=>app.reload(__filename, ...args))
-      ]
-    })
-  },
-
+  readFileSyncLive,
+  requireLive,
+  reload
 })
 
-if (module === main) {
-  console.log('Starting...')
-  chdir(process.argv[3] ?? '.')
-  const app = require(process.argv[2])(module.exports({
-    root: process.argv[2],
-    port: process.argv[4] ?? 1234,
-  }))
+if (module === require.main) {
+  runMain(...process.argv.slice(2))
+}
+
+function runMain (script, ...args) {
+  chdir(dirname(require.resolve(script)))
+  let main
+  let state
+  const update = () => state = main(state, ...args)
+  main = requireLive(script, update)
+  update()
+}
+
+function watch (file, cb) {
+  if (!cb) throw new Error(`No watch callback for ${file}`)
+  file = resolve(file)
+  console.log('Watching:', file)
+  return require('fs').watch(file, {interval: 100}, cb)
+}
+
+function requireLive (file, update = () => {}) {
+  console.log('Requiring:', file)
+  let watcher
+  let updated = (...args)=>{
+    reload(watcher, file, ...args)
+    watcher = watch(require.resolve(file), updated)
+    update()
+  }
+  watcher = watch(require.resolve(file), updated)
+  return require(file)
+}
+
+function readFileSyncLive (file) {
+  console.log('Reading:', file)
+  watch(file)
+  return require('fs').readFileSync(file, 'utf8')
+}
+
+function reload (watcher, name, current, previous) {
+  name = require.resolve(name)
+  console.log('Changed:', name)
+  const old = require.cache[name]
+  delete require.cache[name]
+  try {
+    console.log('Reloading:', name)
+    require(name)
+  } catch (e) {
+    console.warn('Reload failed:', e)
+    require.cache[name] = old
+  } finally {
+    watcher.close()
+    watcher.unref()
+    return
+  }
 }
