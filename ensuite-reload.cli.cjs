@@ -5,7 +5,6 @@ const {chdir} = require('process')
 
 module.exports = Object.assign(runMain, {
   watch,
-  readFileSyncLive,
   requireLive,
   reload
 })
@@ -15,7 +14,8 @@ if (module === require.main) {
 }
 
 function runMain (script, ...args) {
-  chdir(dirname(require.resolve(script)))
+  script = require.resolve(script)
+  console.info('Running:', script, args)
   let main
   let state
   const update = () => state = main(state, ...args)
@@ -40,12 +40,6 @@ function requireLive (file, update = () => {}) {
   }
   watcher = watch(require.resolve(file), updated)
   return require(file)
-}
-
-function readFileSyncLive (file) {
-  console.log('Reading:', file)
-  watch(file)
-  return require('fs').readFileSync(file, 'utf8')
 }
 
 function reload (watcher, name, current, previous) {
