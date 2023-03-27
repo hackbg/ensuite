@@ -8,39 +8,43 @@ const markdownIt = require('markdown-it')
 const markdownItAnchor = require('markdown-it-anchor').default
 const markdownItToc = require('markdown-it-table-of-contents')
 const highlightJs = require('highlight.js')
-const glob = require('glob')
 
 module.exports = Object.assign(main, {
   handle,
+  wsHandle,
   render
 })
 
+/** Launch the Ensuite development server. */
 function main (state, args) {
-
   // Parse arguments
   const [ port = 1234, index = '/index.pug' ] = args || []
-
   // Init state
   state = state ?? {}
-
   // Create HTTP server
-  state.server = state.server || require('http')
-    .createServer((req, res)=>require(__filename).handle(req, res))
-    .listen(port, ()=>console.info(`Listening on`, port))
-
+  if (!state.server) {
+    state.server = state.server || require('http')
+      .createServer((req, res)=>require(__filename).handle(req, res))
+      .listen(port, ()=>console.info(`Listening on`, port))
+  }
   // Create WebSocker server
-  state.wsServer = new (require('ws').WebSocketServer)({ server: state.server })
-  state.wsServer.on('listening', ()=>console.info(`WebSocket listening on`, port))
-  state.wsServer.on('connection', (ws, req)=>require(__filename).wsHandle(ws, req))
-
+  if (!state.wsServer) {
+    state.wsServer = new (require('ws').WebSocketServer)({ server: state.server })
+    state.wsServer.on('listening', ()=>console.info(`WebSocket listening on`, port))
+    state.wsServer.on('connection', (ws, req)=>require(__filename).wsHandle(ws, req))
+  }
   // Return mutated state
   return state
 }
 
+/** Handle a HTTP request. */
 async function handle (req, res) {
   try {
     const data = await require(__filename).render(req)
-    res.writeHead(200, { 'Content-Type': 'text/html' })
+    res.writeHead(200, {
+      'Content-Type': 'text/html',
+      //'Content-Security-Policy': csp,
+    })
     res.end(data)
   } catch (e) {
     res.writeHead(500, { 'Content-Type': 'text/plain' })
@@ -48,8 +52,95 @@ async function handle (req, res) {
   }
 }
 
+/** Handle a WebSocket connection. */
+async function wsHandle (socket, req) {
+  console.log('Reloader connected')
+  socket.send('ready')
+  socket.addEventListener('message', message => {
+    console.log('Reloader message:', message.data)
+  })
+}
+
 async function render (req) {
-  return 'rendered'
+  return page([
+  ], [
+    await navigation(),
+    `<script type="text/javascript">`,
+    `  const ensuiteSocket = new WebSocket(Object.assign(new URL(location.href), { protocol: 'ws' }).href)`,
+    `  ensuiteSocket.addEventListener('message', message => {`,
+    `    switch (message.data) {`,
+    `      case 'ready':  console.info('Reloader ready'); ensuiteSocket.send('ready'); break;`,
+    `      case 'reload': console.info('Reloading'); break;`,
+    `    }`,
+    `  })`,
+    `</script>`
+  ])
+}
+
+async function page (head = [], body = []) {
+  return [
+    '<!doctype html>',
+    '<html>',
+    '<head>',
+    `<meta http-equiv="Content-Security-Policy" content="default-src 'self' ws: 'unsafe-inline';">`,
+    ...head,
+    '</head>',
+    '<body>', ...body, '</body>',
+    '</html>'
+  ].join('\n')
+}
+
+async function navigation () {
+
+  const glob = require('glob')
+
+  const paths = [...new Set([
+    ...(await glob('**/*.md')),
+    ...(await glob('**/*.ts.md')),
+    ...(await glob('**/*.pug'))
+  ])]
+    .sort()
+    .map(path=>path.split(sep))
+    .sort((a,b)=>a.length-b.length)
+
+  // Convert list of paths into tree
+  const tree = {}
+  for (const path of paths) {
+    let dir = tree
+    for (const fragment of path) {
+      dir = (dir[fragment] ??= {})
+    }
+  }
+
+  // Return the rendered tree
+  return [
+    '<style id="ensuite.css">',
+    require('fs').readFileSync(resolve(__dirname, 'ensuite.css'), 'utf8'),
+    '</style>',
+    checkboxHack('toggle-file-tree', '', renderTree(tree))
+  ].join('\n')
+
+}
+
+function checkboxHack (id, text, control) {
+  const label = `<label for="${id}" class="toggle">${text}</label>`
+  const input = `<input type="checkbox" class="toggle" id="${id}">`
+  return `${input}${label}${control}`
+}
+
+function renderTree (tree, prev = '') {
+  let output = ''
+  // Render leaves first
+  for (const name of Object.keys(tree).filter(x=>Object.keys(tree[x]).length === 0).sort()) {
+    const path = `${prev}/${name}`
+    output += `<li><a target="content" href="${path}">${name}</a></li>`
+  }
+  // Render branches
+  for (const name of Object.keys(tree).filter(x=>Object.keys(tree[x]).length > 0).sort()) {
+    const path = `${prev}/${name}`
+    output += `<li>${checkboxHack(path, name, renderTree(tree[name], prev+'/'+name))}</li>`
+  }
+  return `<ul>${output}</ul>`
 }
 
 //module.exports = (app = {}) => {
