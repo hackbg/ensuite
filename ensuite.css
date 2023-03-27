@@ -54,6 +54,7 @@ td { background: #eee; padding: 0.25rem 0.5rem }
   bottom: 1rem;
   max-height: 90vh;
   max-width: 90vw;
+  border: 1px solid black;
 }
 
 #prompt {
