@@ -1,0 +1,63 @@
+.ensuite-navigator { position: fixed; top: 1em; left: 1em }
+.ensuite-navigator > ul { margin: 0; padding-left: 1rem; list-style: none }
+.ensuite-navigator > ul { font-family: monospace; font-size: 0.9rem; }
+.ensuite-navigator > ul { background: #eee; padding: 1rem; border-right: 1px solid #fff; position: fixed; overflow: auto; box-shadow: 3px 3px 1px rgba(33,33,33,0.3) }
+.ensuite-navigator > ul { border-radius: 0.5rem; padding-left: 2rem}
+.ensuite-navigator > ul:not(:focus) {}
+.ensuite-navigator > ul li { display: flex; flex-flow: row nowrap; margin-bottom: 0.1em; }
+.ensuite-navigator > ul li ul { flex-grow: 1; margin-bottom: 0.1em; border-left: 1px solid #aaa; padding-left: 0.5rem; margin-left: 0.5rem }
+.ensuite-navigator > ul li a { text-align: right; font-weight: bold; color: black; text-decoration: underline 1px #888  }
+.ensuite-navigator > ul li label { font-style: italic; text-decoration: underline dotted 1px #000 }
+.ensuite-navigator > ul li input { align-self: flex-start; margin-left: -1rem }
+.ensuite-navigator > ul li input.toggle ~ ul { display: none; visibility: hidden }
+.ensuite-navigator > ul li input.toggle:checked ~ ul { display: block; visibility: visible }
+
+.ensuite-toggle ~ * {
+  width: 0;
+  height: 0;
+  visibility: hidden;
+  overflow: hidden;
+}
+.ensuite-toggle:checked ~ * {
+  width: initial;
+  height: initial;
+  visibility: initial;
+  overflow: initial;
+}
+
+#toggle-file-tree {
+  position: relative;
+  z-index: 1;
+  align-self: flex-end;
+}
+
+#toggle-file-tree ~ ul {
+  width: 0;
+  height: 0;
+  visibility: hidden;
+  overflow: hidden;
+}
+
+#toggle-file-tree:checked ~ ul {
+  width: auto;
+  height: auto;
+  visibility: visible;
+  overflow: auto;
+  left: 1rem;
+  top: 1rem;
+  max-height: 90vh;
+  max-width: 90vw;
+  border: 1px solid black;
+}
+
+#prompt {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 1rem;
+  right: 0;
+  height: 1em;
+  background: #ff8;
+  border: none;
+  display: block;
+}

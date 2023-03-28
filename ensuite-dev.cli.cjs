@@ -38,7 +38,7 @@ async function handle (req, res) {
   try {
     const data = await require(__filename).render(req)
     res.writeHead(200, {
-      'Content-Type': 'text/html',
+      //'Content-Type': 'text/html',
       //'Content-Security-Policy': csp,
     })
     res.end(data)
@@ -59,26 +59,16 @@ async function wsHandle (socket, req) {
 
 async function render (req) {
   let {pathname, searchParams} = new URL(req.url, `http://${req.headers.host}`)
-  if (pathname === '/_') pathname = '/_/'
-  console.log('Rendering:', pathname)
-  if (pathname === '/_/') {
-    return await renderContent(searchParams.get('page'))
-  }
-  return page([
-    ...reloader(),
-    ...await navigation(),
-    `<iframe name="content" src="/_/?page=${req.url}">`
-  ])
-}
-
-async function renderContent (path) {
-  if (path === '/') path = 'index.pug'
+  if (pathname === '/') pathname = '/index.pug'
+  while (pathname.startsWith('/')) pathname = pathname.slice(1)
+  const path = resolve(pathname)
+  console.log('Rendering:', pathname, path)
   if (path.endsWith('.pug')) {
-    return await renderPug(path)
+    return await injectNavigation(await renderPug(path))
   } else if (path.endsWith('.md')) {
-    return await renderMd(path)
+    return await injectNavigation(await renderMd(path))
   } else {
-    throw new Error(`Can't render: ${path}`)
+    return readFileSync(path)
   }
 }
 
@@ -89,15 +79,35 @@ async function renderPug (path) {
 
 async function renderMd (path) {
   console.info('Rendering Markdown:', path)
-  const data = readFileSync(join(process.cwd(), path))
+  const data = readFileSync(path)
   const {styles = []} = require('js-yaml').load(readFileSync('ensuite.yml', 'utf8'))
   return page([
-    ...styles.map(path=>style(path)),
-    style('ensuite.css', __dirname),
-    '<content>',
-    require('./ensuite-markdown').render(`[[toc]]\n\n${data}`),
+    ...styles.map(path=>style(path, readFileSync(path))),
+    '<content class="ensuite-md-rendered">',
+    require('./ensuite-md').render(`[[toc]]\n\n${data}`),
     '</content>',
   ])
+}
+
+async function injectNavigation (html) {
+  return [
+    html,
+    style('ensuite', readFileSync(resolve(__dirname, 'ensuite-nav.css'), 'utf8')),
+    template('ensuite', checkboxHack('toggle-file-tree', '', renderTree(await scopeTree()))),
+    script('ensuite', readFileSync(resolve(__dirname, 'ensuite-nav.js'), 'utf8')),
+  ].join('\n')
+}
+
+function style (name, data) {
+  return `<style name="${name}" type="text/css">${data}</style>`
+}
+
+function script (name, data) {
+  return `<script name="${name}" type="text/javascript">${data}</script>`
+}
+
+function template (name, data) {
+  return `<template name="${name}">${data}</template>`
 }
 
 async function page (body = []) {
@@ -115,26 +125,6 @@ async function page (body = []) {
   ].join('\n')
 }
 
-function style (style, path = process.cwd()) {
-  const file = resolve(path, style)
-  const data = readFileSync(file, 'utf8')
-  return `<style type="text/css" data-path="${style}">${data}</style>`
-}
-
-function reloader () {
-  return [
-    `<script type="text/javascript">`,
-    `  const ensuiteSocket = new WebSocket(Object.assign(new URL(location.href), { protocol: 'ws' }).href)`,
-    `  ensuiteSocket.addEventListener('message', message => {`,
-    `    switch (message.data) {`,
-    `      case 'ready':  console.info('Reloader ready'); ensuiteSocket.send('ready'); break;`,
-    `      case 'reload': console.info('Reloading'); break;`,
-    `    }`,
-    `  })`,
-    `</script>`
-  ]
-}
-
 /** Get a tree of in-scope files for the project. */
 /** Render the navigation tree. */
 async function navigation () {
@@ -146,7 +136,7 @@ async function navigation () {
 
 function checkboxHack (id, text, control) {
   const label = `<label for="${id}" class="toggle">${text}</label>`
-  const input = `<input type="checkbox" class="toggle" id="${id}">`
+  const input = `<input type="checkbox" class="ensuite-toggle" id="${id}">`
   return `${input}${label}${control}`
 }
 
