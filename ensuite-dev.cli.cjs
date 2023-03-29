@@ -35,14 +35,14 @@ function main (state, args) {
 
 /** Handle a HTTP request. */
 async function handle (req, res) {
+  const url = new URL(req.url, `http://${req.headers.host}`)
   try {
-    const data = await require(__filename).render(req)
-    res.writeHead(200, {
-      //'Content-Type': 'text/html',
-      //'Content-Security-Policy': csp,
-    })
+    const mime = url.pathname.endsWith('.svg') ? 'image/svg+xml' : 'text/html'
+    const data = await require(__filename).render(url)
+    res.writeHead(200, { 'Content-Type': mime, })
     res.end(data)
   } catch (e) {
+    console.error(e)
     res.writeHead(500, { 'Content-Type': 'text/plain' })
     res.end(e.stack)
   }
@@ -57,8 +57,8 @@ async function wsHandle (socket, req) {
   })
 }
 
-async function render (req) {
-  let {pathname, searchParams} = new URL(req.url, `http://${req.headers.host}`)
+async function render (url) {
+  let {pathname, searchParams} = url
   if (pathname === '/') pathname = '/index.pug'
   while (pathname.startsWith('/')) pathname = pathname.slice(1)
   const path = resolve(pathname)
