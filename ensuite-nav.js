@@ -10,13 +10,14 @@
     }
   })
 
-  document.querySelectorAll('a[target=content]').forEach(element=>{
-    element.addEventListener('click', () => {
-      url = new URL(window.location)
-      url.searchParams.set('page', new URL(element.href).pathname)
-      console.log(element.href)
-      history.pushState({}, '', url)
-    })
+  document.querySelectorAll('a[href]').forEach(async element=>{
+    if (element.href.startsWith('mailto:')) return
+    try {
+      await fetch(element.href, { mode: 'no-cors' })
+    } catch (e) {
+      console.warn(e)
+      element.style.background = 'red'
+    }
   })
 
   document.body.appendChild(Object.assign(document.createElement('nav'), {
