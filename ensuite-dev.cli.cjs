@@ -116,7 +116,7 @@ async function page (body = []) {
     '<html>',
     '<head>',
     `<meta charset="utf-8">`,
-    `<meta http-equiv="Content-Security-Policy" content="default-src 'self' ws: 'unsafe-inline';">`,
+    `<meta http-equiv="Content-Security-Policy" content="default-src 'self' http: https: ws: wss: 'unsafe-inline';">`,
     '</head>',
     '<body>',
     ...body,
