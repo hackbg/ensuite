@@ -1,0 +1,9 @@
+packages:
+  - '.'
+  - 'toolbox'
+  - 'toolbox/*'
+  - 'ganesha'
+  - 'ganesha/*'
+  - '!ganesha/vsc'
+  - '!ganesha/rollup'
+  - '!ganesha/test'
