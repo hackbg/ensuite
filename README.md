@@ -24,7 +24,7 @@ in the same document.
 
 ## Dependencies
 
-* **[Runspec](https://github.com/hackbg/toolbox/tree/main/runspec)** lets you define test suites.
+* **[@hackbg/spec](https://github.com/hackbg/toolbox/tree/main/spec)** lets you define test suites.
 
 * **[Ganesha](https://github.com/hackbg/ganesha)** lets you write them as literate modules.
 
