@@ -29,8 +29,10 @@ export default async function main (state, ...args) {
     // Render page
     const { path, shortPath } = $(root, output, _path)
     console.log('render:', shortPath)
-    if (page.endsWith('pug')) {
+    if (page.endsWith('.pug')) {
       writeFileSync(path, _renderPug(page))
+    } else if (page.endsWith('.md')) {
+      writeFileSync(path, await renderMd(page))
     }
   }
 }
@@ -55,14 +57,15 @@ export async function renderPug (path) {
   return require('./ensuite-pug.cli.cjs')()
 }
 
+import md from './ensuite-md.js'
 export async function renderMd (path) {
-  console.info('Rendering Markdown:', path)
+  console.log('markdown:', path)
   const data = readFileSync(path)
-  const {styles = []} = require('js-yaml').load(readFileSync('ensuite.yml', 'utf8'))
+  const {styles = []} = load(readFileSync('ensuite.yml', 'utf8'))
   return page([
     ...styles.map(path=>style(path, readFileSync(path))),
     '<content class="ensuite-md-rendered">',
-    require('./ensuite-md').render(`[[toc]]\n\n${data}`),
+    md.render(`[[toc]]\n\n${data}`),
     '</content>',
   ])
 }

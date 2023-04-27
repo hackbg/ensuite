@@ -1,16 +1,11 @@
-const markdown = require('markdown-it')({
-  highlight (str, lang) {
-    const highlightJs = require('highlight.js')
-    if (lang && highlightJs.getLanguage(lang)) {
-      try {
-        return highlightJs.highlight(str, { language: lang }).value;
-      } catch (_) {}
-    }
-    return ''
-  }
-})
+import md       from 'markdown-it'
+import mdAnchor from 'markdown-it'
+import mdToc    from 'markdown-it-table-of-contents'
+import mdHilite from 'markdown-it-highlightjs'
 
-markdown.use(require('markdown-it-anchor').default)
-markdown.use(require('markdown-it-table-of-contents'), { includeLevel: [2,3,4] })
+const markdown = md()
+markdown.use(mdAnchor)
+markdown.use(mdToc, { includeLevel: [2,3,4] })
+markdown.use(mdHilite)
 
-module.exports = markdown
+export default markdown

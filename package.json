@@ -36,6 +36,7 @@
     "markdown-it": "^13.0.1",
     "markdown-it-anchor": "^8.6.7",
     "markdown-it-table-of-contents": "^0.6.0",
+    "markdown-it-highlightjs": "^4.0.1",
     "pug": "^3.0.2",
     "typescript": "^5.0.4",
     "why-is-node-still-running": "^1",
