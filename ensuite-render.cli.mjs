@@ -30,8 +30,10 @@ export default async function main (state, ...args) {
     const { path, shortPath } = $(root, output, _path)
     console.log('render:', shortPath)
     if (page.endsWith('.pug')) {
+      console.log('pug:', page)
       writeFileSync(path, _renderPug(page))
     } else if (page.endsWith('.md')) {
+      console.log('markdown:', page)
       writeFileSync(path, await renderMd(page))
     }
   }
@@ -59,7 +61,6 @@ export async function renderPug (path) {
 
 import md from './ensuite-md.js'
 export async function renderMd (path) {
-  console.log('markdown:', path)
   const data = readFileSync(path)
   const {styles = []} = load(readFileSync('ensuite.yml', 'utf8'))
   return page([
