@@ -11,7 +11,7 @@
     "ensuite": "ensuite.cli.cjs",
     "ensuite-cov": "ensuite-cov.cli.cjs",
     "ensuite-dev": "ensuite-dev.cli.cjs",
-    "ensuite-render": "ensuite-render.cli.cjs",
+    "ensuite-render": "ensuite-render.cli.mjs",
     "ensuite-reload": "ensuite-reload.cli.cjs"
   },
   "repository": {
@@ -27,6 +27,8 @@
     "@types/markdown-it": "*",
     "@hackbg/ganesha": "workspace:^4",
     "@hackbg/spec": "workspace:^1",
+    "@hackbg/logs": "workspace:^*",
+    "@hackbg/file": "workspace:^*",
     "c8": "^7.12",
     "glob": "^9.2.1",
     "highlight.js": "^11.7.0",
