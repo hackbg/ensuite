@@ -1,5 +1,5 @@
 import md       from 'markdown-it'
-import mdAnchor from 'markdown-it'
+import mdAnchor from 'markdown-it-anchor'
 import mdToc    from 'markdown-it-table-of-contents'
 import mdHilite from 'markdown-it-highlightjs'
 
