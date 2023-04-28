@@ -5,7 +5,7 @@
 **Literate test-driven development for the ECMAScript language family.**
 
 ```shell
-$ npx @hackbg/ensuite@latest ensuite SPEC.ts.md`
+$ npx @hackbg/ensuite@latest ensuite SPEC.ts.md
 ```
 
 </div>
@@ -28,7 +28,7 @@ in the same document.
 
 * **[Ganesha](https://github.com/hackbg/ganesha)** lets you write them as literate modules.
 
-* **[Ubik](https://github.com/hackbg/ubik)** is used to publish this package to NPM.
+* **[Ubik](https://github.com/hackbg/toolbox/tree/main/ubik)** is used to publish this package to NPM.
 
 * **[C8](https://github.com/bcoe/c8)** collects test coverage.
 
