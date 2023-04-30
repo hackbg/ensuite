@@ -17,6 +17,7 @@ importers:
       js-yaml: ^4.1.0
       markdown-it: ^13.0.1
       markdown-it-anchor: ^8.6.7
+      markdown-it-highlightjs: ^4.0.1
       markdown-it-table-of-contents: ^0.6.0
       pug: ^3.0.2
       typescript: ^5.0.4
@@ -35,6 +36,7 @@ importers:
       js-yaml: 4.1.0
       markdown-it: 13.0.1
       markdown-it-anchor: 8.6.7_ea7kj7wzjkld5jo2noyjqxi764
+      markdown-it-highlightjs: 4.0.1
       markdown-it-table-of-contents: 0.6.0
       pug: 3.0.2
       typescript: 5.0.4
@@ -164,13 +166,13 @@ importers:
       signal-exit: 3.0.7
     devDependencies:
       '@hackbg/ubik': link:ubik
-      '@types/node': 18.16.1
+      '@types/node': 18.16.3
       concurrently: 7.2.2
       husky: 8.0.3
       lint-staged: 13.1.2
       typedoc: 0.23.25_typescript@5.0.2
       typescript: 5.0.2
-      vitepress: 1.0.0-alpha.10_@types+node@18.16.1
+      vitepress: 1.0.0-alpha.10_@types+node@18.16.3
 
   toolbox/4mat:
     specifiers:
@@ -691,7 +693,7 @@ packages:
   /@types/docker-modem/3.0.2:
     resolution: {integrity: sha512-qC7prjoEYR2QEe6SmCVfB1x3rfcQtUr1n4x89+3e0wSTMQ/KYCyf+/RAA9n2tllkkNc6//JMUZePdFRiGIWfaQ==}
     dependencies:
-      '@types/node': 18.16.1
+      '@types/node': 18.16.3
       '@types/ssh2': 1.11.4
     dev: true
 
@@ -710,7 +712,7 @@ packages:
     resolution: {integrity: sha512-l6NQsDDyQUVeoTynNpC9uRvCUint/gSUXQA2euwmTuWGvPY5LSDUu6tkCtJB2SvGQlJQzLaKqcGZP4//7EDveA==}
     dependencies:
       '@types/minimatch': 5.1.2
-      '@types/node': 18.16.1
+      '@types/node': 18.16.3
     dev: true
 
   /@types/istanbul-lib-coverage/2.0.4:
@@ -751,8 +753,8 @@ packages:
   /@types/node/18.11.9:
     resolution: {integrity: sha512-CRpX21/kGdzjOpFsZSkcrXMGIBWMGNIHXXBVFSH+ggkftxg+XYP20TESbh+zFvFj3EQOl5byk0HTRn1IL6hbqg==}
 
-  /@types/node/18.16.1:
-    resolution: {integrity: sha512-DZxSZWXxFfOlx7k7Rv4LAyiMroaxa3Ly/7OOzZO8cBNho0YzAi4qlbrx8W27JGqG57IgR/6J7r+nOJWw6kcvZA==}
+  /@types/node/18.16.3:
+    resolution: {integrity: sha512-OPs5WnnT1xkCBiuQrZA4+YAV4HEJejmHneyraIaxsbev5yCEr6KMwINNFP9wQeFIw8FWcoTqF3vQsa5CDaI+8Q==}
     dev: true
 
   /@types/rimraf/3.0.2:
@@ -771,7 +773,7 @@ packages:
   /@types/ssh2/1.11.4:
     resolution: {integrity: sha512-anmIRj5ciVsjLYx4lwMRvQcUw6FqGhVkPNmWVBfNsmb9LMO0wLF40BVazyBKry8gViRvLAldDfQvpKunFSZ9pA==}
     dependencies:
-      '@types/node': 18.16.1
+      '@types/node': 18.16.3
     dev: true
 
   /@types/tmp/0.2.3:
@@ -793,7 +795,7 @@ packages:
       vite: ^3.0.0
       vue: ^3.2.25
     dependencies:
-      vite: 3.2.5_@types+node@18.16.1
+      vite: 3.2.5_@types+node@18.16.3
       vue: 3.2.37
     dev: true
 
@@ -2396,6 +2398,12 @@ packages:
       markdown-it: 13.0.1
     dev: false
 
+  /markdown-it-highlightjs/4.0.1:
+    resolution: {integrity: sha512-EPXwFEN6P5nqR3G4KjT20r20xbGYKMMA/360hhSYFmeoGXTE6hsLtJAiB/8ID8slVH4CWHHEL7GX0YenyIstVQ==}
+    dependencies:
+      highlight.js: 11.7.0
+    dev: false
+
   /markdown-it-table-of-contents/0.6.0:
     resolution: {integrity: sha512-jHvEjZVEibyW97zEYg19mZCIXO16lHbvRaPDkEuOfMPBmzlI7cYczMZLMfUvwkhdOVQpIxu3gx6mgaw46KsNsQ==}
     engines: {node: '>6.4.0'}
@@ -3275,7 +3283,7 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vite/3.2.5_@types+node@18.16.1:
+  /vite/3.2.5_@types+node@18.16.3:
     resolution: {integrity: sha512-4mVEpXpSOgrssFZAOmGIr85wPHKvaDAcXqxVxVRZhljkJOMZi1ibLibzjLHzJvcok8BMguLc7g1W6W/GqZbLdQ==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
@@ -3300,7 +3308,7 @@ packages:
       terser:
         optional: true
     dependencies:
-      '@types/node': 18.16.1
+      '@types/node': 18.16.3
       esbuild: 0.15.18
       postcss: 8.4.21
       resolve: 1.22.1
@@ -3309,7 +3317,7 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vitepress/1.0.0-alpha.10_@types+node@18.16.1:
+  /vitepress/1.0.0-alpha.10_@types+node@18.16.3:
     resolution: {integrity: sha512-RGPU+YApj2jaYplAIJUe+2qlDks9FzPX1QGK+7NdGByeCCVZg6z9eYWjjvfvA/sgCtG3yeJE/4/jCwlv4Y8bVw==}
     hasBin: true
     dependencies:
@@ -3320,7 +3328,7 @@ packages:
       '@vueuse/core': 9.12.0_vue@3.2.37
       body-scroll-lock: 4.0.0-beta.0
       shiki: 0.11.1
-      vite: 3.2.5_@types+node@18.16.1
+      vite: 3.2.5_@types+node@18.16.3
       vue: 3.2.37
     transitivePeerDependencies:
       - '@algolia/client-search'

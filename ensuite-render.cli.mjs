@@ -1,19 +1,20 @@
 #!/usr/bin/env ganesha-run
-
+import md from './ensuite-md.js'
+import renderPug from './ensuite-pug.cli.cjs'
 import { Console } from '@hackbg/logs'
+import $ from '@hackbg/file'
+import { load } from 'js-yaml'
+import glob from 'glob'
+import { fileURLToPath } from 'node:url'
+import { resolve, dirname, sep } from 'node:path'
+import { readFileSync, mkdirSync, realpathSync, writeFileSync } from 'node:fs'
+
 const console = new Console('ensuite-render')
 
-import { realpathSync, writeFileSync } from 'node:fs'
-import { fileURLToPath } from 'node:url' // gnarly
 if (realpathSync(process.argv[1]) === fileURLToPath(import.meta.url))
-  main({}, ...process.argv.slice(2))
+  main({}, process.argv.slice(2))
 
-import $ from '@hackbg/file'
-import { resolve } from 'node:path'
-import { readFileSync, mkdirSync } from 'node:fs'
-import { load } from 'js-yaml'
-import _renderPug from './ensuite-pug.cli.cjs'
-export default async function main (state, ...args) {
+export default async function main (state, args) {
   // Parse arguments
   const [ root = process.cwd() ] = args
   console.log('root:', root)
@@ -31,7 +32,7 @@ export default async function main (state, ...args) {
     console.log('render:', shortPath)
     if (page.endsWith('.pug')) {
       console.log('pug:', page)
-      writeFileSync(path, _renderPug(page))
+      writeFileSync(path, renderPug(page))
     } else if (page.endsWith('.md')) {
       console.log('markdown:', page)
       writeFileSync(path, await renderMd(page))
@@ -54,12 +55,6 @@ export async function render (url) {
   }
 }
 
-export async function renderPug (path) {
-  console.info('Rendering Pug:', path)
-  return require('./ensuite-pug.cli.cjs')()
-}
-
-import md from './ensuite-md.js'
 export async function renderMd (path) {
   const data = readFileSync(path)
   const {styles = []} = load(readFileSync('ensuite.yml', 'utf8'))
@@ -72,11 +67,12 @@ export async function renderMd (path) {
 }
 
 async function injectNavigation (html) {
+  const __dirname = resolve(dirname(fileURLToPath(import.meta.url)))
   return [
     html,
-    style('ensuite', readFileSync(resolve(__dirname, 'ensuite-nav.css'), 'utf8')),
+    style(   'ensuite', readFileSync(resolve(__dirname, 'ensuite-nav.css'), 'utf8')),
     template('ensuite', checkboxHack('toggle-file-tree', '', renderTree(await scopeTree()))),
-    script('ensuite', readFileSync(resolve(__dirname, 'ensuite-nav.js'), 'utf8')),
+    script(  'ensuite', readFileSync(resolve(__dirname, 'ensuite-nav.js'), 'utf8')),
   ].join('\n')
 }
 
@@ -93,18 +89,12 @@ function template (name, data) {
 }
 
 async function page (body = []) {
+  const csp = "default-src 'self' http: https: ws: wss: 'unsafe-inline';"
   return [
-    '<!doctype html>',
-    '<html>',
-    '<head>',
-    `<meta charset="utf-8">`,
+    '<!doctype html>', '<html>', '<head>', `<meta charset="utf-8">`,
     `<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />`,
-    `<meta http-equiv="Content-Security-Policy" content="default-src 'self' http: https: ws: wss: 'unsafe-inline';">`,
-    '</head>',
-    '<body>',
-    ...body,
-    '</body>',
-    '</html>'
+    `<meta http-equiv="Content-Security-Policy" content="${csp}">`,
+    '</head>', '<body>', ...body, '</body>', '</html>'
   ].join('\n')
 }
 
@@ -140,10 +130,8 @@ function renderTree (tree, prev = '') {
 
 async function scopeTree () {
   // Get all files matching filter
-  const glob = require('glob')
   const paths = [...new Set([
     ...(await glob('**/*.md')),
-    ...(await glob('**/*.ts.md')),
     ...(await glob('**/*.pug'))
   ])]
     .sort()

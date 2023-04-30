@@ -1,9 +1,11 @@
-#!/usr/bin/env ensuite-reload
+#!/usr/bin/env ganesha-run
 
 const { readFileSync } = require('fs')
 const { join, sep, resolve } = require('path')
 const { createServer } = require('http')
 const { statSync } = require('fs')
+
+if (require.main === module) main({}, process.argv.slice(2))
 
 module.exports = Object.assign(main, {
   handle,
@@ -36,8 +38,9 @@ function main (state, args) {
 async function handle (req, res) {
   const url = new URL(req.url, `http://${req.headers.host}`)
   try {
+    const handler = await import('./ensuite-render.cli.mjs')
+    const data = await handler.render(url)
     const mime = url.pathname.endsWith('.svg') ? 'image/svg+xml' : 'text/html'
-    const data = await require('./ensuite-render.cli.cjs').render(url)
     res.writeHead(200, { 'Content-Type': mime, })
     res.end(data)
   } catch (e) {
