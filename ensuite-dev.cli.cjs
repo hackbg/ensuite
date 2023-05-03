@@ -40,8 +40,8 @@ async function handle (state, req, res) {
     }
   }
   try {
-    const handler = await import('./ensuite-render.cli.mjs')
-    const data = await handler.render(url)
+    const { renderUrl } = await import('./ensuite-render.cli.mjs')
+    const data = await renderUrl(state, url)
     const mime = url.pathname.endsWith('.svg') ? 'image/svg+xml' : 'text/html'
     res.writeHead(200, { 'Content-Type': mime, })
     res.end(data)

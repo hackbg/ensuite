@@ -13,7 +13,7 @@
   document.querySelectorAll('a[href]').forEach(async element=>{
     if (element.href.startsWith('mailto:')) return
     try {
-      await fetch(element.href, { mode: 'no-cors' })
+      await fetch(element.href, { method: 'HEAD', mode: 'no-cors' })
     } catch (e) {
       console.warn(e)
       element.style.background = 'red'

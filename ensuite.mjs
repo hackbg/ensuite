@@ -2,8 +2,7 @@ import why from 'why-is-node-still-running'
 import { runSpec } from '@hackbg/spec'
 import { resolve} from 'path'
 main(...process.argv.slice(2))
-export async function main (root, ...specs) {
-
+export async function main (root = process.cwd(), ...specs) {
   // If tests don't exit, press "?" to see why
   if (process.stdin.setRawMode) process.stdin.setRawMode(true)
   process.stdin.resume()
@@ -16,13 +15,10 @@ export async function main (root, ...specs) {
       why.whyIsNodeStillRunning()
     }
   })
-
   // Run tests
   const index = resolve(process.cwd(), root)
   const suite = await import(index)
   await runSpec(suite.default, specs)
-
   console.log('Tests done.')
   process.stdin.pause()
-
 }

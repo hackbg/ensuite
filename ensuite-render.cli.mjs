@@ -1,6 +1,6 @@
 #!/usr/bin/env ganesha-run
 import md from './ensuite-md.js'
-import renderPug from './ensuite-pug.cli.cjs'
+import { compileFile } from 'pug'
 import { Console } from '@hackbg/logs'
 import $ from '@hackbg/file'
 import { load } from 'js-yaml'
@@ -24,46 +24,81 @@ export default async function main (state, args) {
   // Create output directory
   try { mkdirSync(resolve(root, output)) } catch (e) { if (e.code !== 'EEXIST') throw e }
   // Render each defined route
-  for (let { path: _path, page } of routes) {
+  for (const { path, page } of routes) {
     // Trim leading slashes
     while (_path.startsWith('/')) _path = _path.slice(1)
     // Render page
     const { path, shortPath } = $(root, output, _path)
-    console.log('render:', shortPath)
-    if (page.endsWith('.pug')) {
-      console.log('pug:', page)
-      writeFileSync(path, renderPug(page))
-    } else if (page.endsWith('.md')) {
-      console.log('markdown:', page)
-      writeFileSync(path, await renderMd(page))
-    }
+    writeFileSync(path, await renderPath({ dev: false }, page))
   }
 }
 
-export async function render (url) {
+export async function renderUrl (state, url) {
   let {pathname, searchParams} = url
   if (pathname === '/') pathname = '/index.pug'
-  while (pathname.startsWith('/')) pathname = pathname.slice(1)
-  const path = resolve(pathname)
-  console.log('Rendering:', pathname, path)
-  if (path.endsWith('.pug')) {
-    return await injectNavigation(await renderPug(path))
-  } else if (path.endsWith('.md')) {
-    return await injectNavigation(await renderMd(path))
-  } else {
-    return readFileSync(path)
-  }
+  return renderPath({ ...state??{}, dev: true }, pathname)
 }
 
-export async function renderMd (path) {
+export async function renderPath (state, path) {
+  while (path.startsWith('/')) path = path.slice(1)
+  path = resolve(path)
+  // Render document types
+  let result = null
+  switch (true) {
+    case path.endsWith('.pug'): result = await renderPug(path); break
+    case path.endsWith('.md'):  result = await renderMd(path);  break
+  }
+  // Add navigation in dev mode
+  if (!result) {
+    result = readFileSync(path)
+  } else if (state?.dev) {
+    result = await injectNavigation(result)
+  }
+  return result
+}
+
+export async function renderMd (
+  path
+) {
+  console.log('Rendering Markdown:', path)
   const data = readFileSync(path)
-  const {styles = []} = load(readFileSync('ensuite.yml', 'utf8'))
-  return page([
+  const {
+    styles = [],
+    header: {
+      title = 'Rendered with Ensuite',
+      link,
+      links = []
+    } = {}
+  } = load(readFileSync('ensuite.yml', 'utf8'))
+  return renderPage([
     ...styles.map(path=>style(path, readFileSync(path))),
+    `<header class="ensuite-md-header">`,
+    `<a class="ensuite-md-title" href="${link}">The <strong>${title}</strong> Guide</a>`,
+    `<div class="ensuite-md-separator"></div>`,
+    ...links.map(({text,href})=>`<a class="ensuite-md-link" href=${href}>${text}</a>`),
+    `</header>`,
     '<content class="ensuite-md-rendered">',
     md.render(`[[toc]]\n\n${data}`),
     '</content>',
   ])
+}
+
+export function renderPug (
+  path = 'index.pug',
+  data = load(readFileSync('ensuite.yml', 'utf8')),
+) {
+  console.log('Rendering Pug:', path)
+  // Compile the homepage template
+  const template = compileFile(path, { self: true })
+  // Render the homepage
+  return template({
+    // When running in CI, debug info is not shown
+    CI:       process.env.CI,
+    // Markdown renderer
+    markdown: md,
+    // Extra data
+    ...data
+  })
 }
 
 async function injectNavigation (html) {
@@ -88,12 +123,16 @@ function template (name, data) {
   return `<template name="${name}">${data}</template>`
 }
 
-async function page (body = []) {
-  const csp = "default-src 'self' http: https: ws: wss: 'unsafe-inline';"
+async function renderPage (body = [], options = {}) {
+  const {
+    title = "Rendered by Ensuite",
+    csp   = "default-src 'self' http: https: ws: wss: 'unsafe-inline';"
+  } = options
   return [
     '<!doctype html>', '<html>', '<head>', `<meta charset="utf-8">`,
     `<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />`,
     `<meta http-equiv="Content-Security-Policy" content="${csp}">`,
+    `<title>${title}</title>`,
     '</head>', '<body>', ...body, '</body>', '</html>'
   ].join('\n')
 }

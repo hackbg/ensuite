@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const ganesha = require.resolve('@hackbg/ganesha/index.js')
+const ganesha = require.resolve('@hackbg/ganesha')
 const ensuite = require.resolve('./ensuite.mjs')
 require('@hackbg/ganesha').main([
   process.argv[0],
