@@ -24,7 +24,7 @@ export default async function main (state, args) {
   // Create output directory
   try { mkdirSync(resolve(root, output)) } catch (e) { if (e.code !== 'EEXIST') throw e }
   // Render each defined route
-  for (const { path, page } of routes) {
+  for (let { path: _path, page } of routes) {
     // Trim leading slashes
     while (_path.startsWith('/')) _path = _path.slice(1)
     // Render page
