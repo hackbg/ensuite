@@ -47,8 +47,8 @@ importers:
 
   ganesha:
     specifiers:
-      '@ganesha/core': workspace:^3
-      '@ganesha/node': workspace:^3.1.0
+      '@ganesha/core': workspace:^3.0.1
+      '@ganesha/node': workspace:^3.2.0
       '@ganesha/node-legacy': workspace:^4.0.2
       '@ganesha/ts': workspace:^2.0.1
       '@hackbg/spec': ^1
@@ -203,7 +203,7 @@ importers:
 
   toolbox/cmds:
     specifiers:
-      '@hackbg/ganesha': ^2.2.5
+      '@hackbg/ensuite': ^1.4.1
       '@hackbg/hide': workspace:^1
       '@hackbg/logs': workspace:^2.0.1
       '@hackbg/task': workspace:^1
@@ -214,7 +214,7 @@ importers:
       '@hackbg/task': link:../task
       '@hackbg/time': link:../time
     devDependencies:
-      '@hackbg/ganesha': 2.3.0
+      '@hackbg/ensuite': link:../..
 
   toolbox/conf:
     specifiers: {}
