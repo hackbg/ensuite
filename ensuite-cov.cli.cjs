@@ -20,6 +20,10 @@ try {
 
 const { coverage: { exclude = [] } = {} } = config || {}
 
+argvCov.push('-r')
+argvCov.push('lcov')
+argvCov.push('-r')
+argvCov.push('text')
 argvCov.unshift('--all')
 for (const path of exclude) {
   argvCov.push('--exclude')

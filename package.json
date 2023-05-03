@@ -1,6 +1,6 @@
 {
   "name": "@hackbg/ensuite",
-  "version": "1.4.4",
+  "version": "1.4.5",
   "main": "ensuite.mjs",
   "files": [
     "README.md",
