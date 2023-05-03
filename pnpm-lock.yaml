@@ -203,7 +203,7 @@ importers:
 
   toolbox/cmds:
     specifiers:
-      '@hackbg/ensuite': ^1.4.1
+      '@hackbg/ensuite': ^1.4.4
       '@hackbg/hide': workspace:^1
       '@hackbg/logs': workspace:^2.0.1
       '@hackbg/task': workspace:^1
