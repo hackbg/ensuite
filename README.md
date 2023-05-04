@@ -26,11 +26,11 @@ in the same document.
 
 * **[@hackbg/spec](https://github.com/hackbg/toolbox/tree/main/spec)** lets you define test suites.
 
-* **[Ganesha](https://github.com/hackbg/ganesha)** lets you write them as literate modules.
+* **[@hackbg/ganesha](https://github.com/hackbg/ganesha)** lets you write them as literate modules.
 
-* **[Ubik](https://github.com/hackbg/toolbox/tree/main/ubik)** is used to publish this package to NPM.
+* **[@hackbg/ubik](https://github.com/hackbg/toolbox/tree/main/ubik)** is used to publish this package to NPM.
 
-* **[C8](https://github.com/bcoe/c8)** collects test coverage.
+* **[c8](https://github.com/bcoe/c8)** collects test coverage.
 
 * **[why-is-node-still-running](https://github.com/cheap-glitch/why-is-node-still-running)**
   lets you hit `?` (question mark) if your test suite doesn't exit, in order to see what's
