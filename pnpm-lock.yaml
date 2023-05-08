@@ -170,13 +170,13 @@ importers:
       signal-exit: 3.0.7
     devDependencies:
       '@hackbg/ubik': link:ubik
-      '@types/node': 18.16.3
+      '@types/node': 20.1.0
       concurrently: 7.2.2
       husky: 8.0.3
       lint-staged: 13.1.2
       typedoc: 0.23.25_typescript@5.0.2
       typescript: 5.0.2
-      vitepress: 1.0.0-alpha.10_@types+node@18.16.3
+      vitepress: 1.0.0-alpha.10_@types+node@20.1.0
 
   toolbox/4mat:
     specifiers:
@@ -219,7 +219,10 @@ importers:
       '@hackbg/ensuite': link:../..
 
   toolbox/conf:
-    specifiers: {}
+    specifiers:
+      '@hackbg/over': workspace:^1.1
+    dependencies:
+      '@hackbg/over': link:../over
 
   toolbox/dock:
     specifiers:
@@ -761,6 +764,10 @@ packages:
     resolution: {integrity: sha512-OPs5WnnT1xkCBiuQrZA4+YAV4HEJejmHneyraIaxsbev5yCEr6KMwINNFP9wQeFIw8FWcoTqF3vQsa5CDaI+8Q==}
     dev: true
 
+  /@types/node/20.1.0:
+    resolution: {integrity: sha512-O+z53uwx64xY7D6roOi4+jApDGFg0qn6WHcxe5QeqjMaTezBO/mxdfFXIVAVVyNWKx84OmPB3L8kbVYOTeN34A==}
+    dev: true
+
   /@types/rimraf/3.0.2:
     resolution: {integrity: sha512-F3OznnSLAUxFrCEu/L5PY8+ny8DtcFRjx7fZZ9bycvXRi3KPTRS9HOitGZwvPg0juRhXFWIeKX58cnX5YqLohQ==}
     dependencies:
@@ -799,7 +806,7 @@ packages:
       vite: ^3.0.0
       vue: ^3.2.25
     dependencies:
-      vite: 3.2.5_@types+node@18.16.3
+      vite: 3.2.5_@types+node@20.1.0
       vue: 3.2.37
     dev: true
 
@@ -3328,7 +3335,7 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vite/3.2.5_@types+node@18.16.3:
+  /vite/3.2.5_@types+node@20.1.0:
     resolution: {integrity: sha512-4mVEpXpSOgrssFZAOmGIr85wPHKvaDAcXqxVxVRZhljkJOMZi1ibLibzjLHzJvcok8BMguLc7g1W6W/GqZbLdQ==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
@@ -3353,7 +3360,7 @@ packages:
       terser:
         optional: true
     dependencies:
-      '@types/node': 18.16.3
+      '@types/node': 20.1.0
       esbuild: 0.15.18
       postcss: 8.4.21
       resolve: 1.22.1
@@ -3362,7 +3369,7 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vitepress/1.0.0-alpha.10_@types+node@18.16.3:
+  /vitepress/1.0.0-alpha.10_@types+node@20.1.0:
     resolution: {integrity: sha512-RGPU+YApj2jaYplAIJUe+2qlDks9FzPX1QGK+7NdGByeCCVZg6z9eYWjjvfvA/sgCtG3yeJE/4/jCwlv4Y8bVw==}
     hasBin: true
     dependencies:
@@ -3373,7 +3380,7 @@ packages:
       '@vueuse/core': 9.12.0_vue@3.2.37
       body-scroll-lock: 4.0.0-beta.0
       shiki: 0.11.1
-      vite: 3.2.5_@types+node@18.16.3
+      vite: 3.2.5_@types+node@20.1.0
       vue: 3.2.37
     transitivePeerDependencies:
       - '@algolia/client-search'
