@@ -1,5 +1,5 @@
 #!/usr/bin/env ganesha-run
-import md from './ensuite-md.js'
+import md, { endToc } from './ensuite-md.js'
 import { compileFile } from 'pug'
 import { Console } from '@hackbg/logs'
 import $ from '@hackbg/file'
@@ -61,25 +61,36 @@ export async function renderMd (
   path
 ) {
   console.log('Rendering Markdown:', path)
-  const data = readFileSync(path)
   const {
     styles = [],
     header: {
       title = 'Rendered with Ensuite',
       link,
-      links = []
-    } = {}
+      links: headerLinks = []
+    } = {},
+    sidebar: {
+      links: sidebarLinks = []
+    }
   } = load(readFileSync('ensuite.yml', 'utf8'))
+  const data = readFileSync(path, 'utf8')
+  const rendered = md.render(`[[toc]]\n\n${data}`)
+  let [toc, content] = rendered.split(endToc)
+  toc = `${toc}</div></p>`
+  content = `<div><p>${content}`
   return renderPage([
     ...styles.map(path=>style(path, readFileSync(path))),
     `<header class="ensuite-md-header">`,
     `<a class="ensuite-md-title" href="${link}">The <strong>${title}</strong> Guide</a>`,
     `<div class="ensuite-md-separator"></div>`,
-    ...links.map(({text,href})=>`<a class="ensuite-md-link" href=${href}>${text}</a>`),
+    ...headerLinks.map(({text,href})=>`<a class="ensuite-md-link" href=${href}>${text}</a>`),
     `</header>`,
-    '<content class="ensuite-md-rendered">',
-    md.render(`[[toc]]\n\n${data}`),
-    '</content>',
+    '<div class="ensuite-md-rendered">',
+    `<nav class="ensuite-md-nav"><ul>`,
+    ...sidebarLinks.map(({text,href})=>`<li><a class="ensuite-md-link" href=${href}>${text}</a></li>`),
+    `</ul></nav>`,
+    `<content class="ensuite-md-content">${content}</content>`,
+    `<nav class="ensuite-md-toc">${toc}</nav>`,
+    '</div>',
   ])
 }
 
