@@ -70,7 +70,11 @@ export async function renderMd (
     } = {},
     sidebar: {
       links: sidebarLinks = []
-    }
+    } = {},
+    extra: {
+      beforeBody = [],
+      afterBody  = [],
+    } = {}
   } = load(readFileSync('ensuite.yml', 'utf8'))
   const data = readFileSync(path, 'utf8')
   const rendered = md.render(`[[toc]]\n\n${data}`)
@@ -78,6 +82,7 @@ export async function renderMd (
   toc = `${toc}</div></p>`
   content = `<div><p>${content}`
   return renderPage([
+    ...beforeBody,
     ...styles.map(path=>style(path, readFileSync(path))),
     `<header class="ensuite-md-header">`,
     `<a class="ensuite-md-title" href="${link}">The <strong>${title}</strong> Guide</a>`,
@@ -91,6 +96,7 @@ export async function renderMd (
     `<content class="ensuite-md-content">${content}</content>`,
     `<nav class="ensuite-md-toc">${toc}</nav>`,
     '</div>',
+    ...afterBody
   ])
 }
 
