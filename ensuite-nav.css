@@ -1,4 +1,4 @@
-.ensuite-navigator { position: fixed; top: 1em; left: 1em }
+.ensuite-navigator { position: fixed; top: 1em; left: 1em; z-index: 1000 }
 .ensuite-navigator > ul { margin: 0; padding-left: 1rem; list-style: none }
 .ensuite-navigator > ul { font-family: monospace; font-size: 0.9rem; }
 .ensuite-navigator > ul { background: #eee; padding: 1rem; border-right: 1px solid #fff; position: fixed; overflow: auto; box-shadow: 3px 3px 1px rgba(33,33,33,0.3) }
