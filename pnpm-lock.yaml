@@ -223,7 +223,7 @@ importers:
         version: link:ubik
       '@types/node':
         specifier: latest
-        version: 20.4.2
+        version: 20.5.7
       concurrently:
         specifier: 7.2.2
         version: 7.2.2
@@ -241,7 +241,7 @@ importers:
         version: 5.0.2
       vitepress:
         specifier: 1.0.0-alpha.10
-        version: 1.0.0-alpha.10(@algolia/client-search@4.14.0)(@types/node@20.4.2)
+        version: 1.0.0-alpha.10(@algolia/client-search@4.14.0)(@types/node@20.5.7)
 
   toolbox/4mat:
     dependencies:
@@ -283,10 +283,10 @@ importers:
   toolbox/cmds:
     dependencies:
       '@hackbg/hide':
-        specifier: workspace:^1
+        specifier: workspace:^1.0.3
         version: link:../hide
       '@hackbg/logs':
-        specifier: workspace:^2.0.1
+        specifier: workspace:^2.0.7
         version: link:../logs
       '@hackbg/task':
         specifier: workspace:^1
@@ -360,10 +360,10 @@ importers:
         specifier: workspace:^1
         version: link:../4mat
       '@hackbg/hide':
-        specifier: workspace:^1
+        specifier: workspace:^1.0.3
         version: link:../hide
       '@hackbg/logs':
-        specifier: workspace:^2.0.1
+        specifier: workspace:^2.0.7
         version: link:../logs
       js-yaml:
         specifier: ^4.1.0
@@ -437,10 +437,10 @@ importers:
   toolbox/logs:
     dependencies:
       '@hackbg/allo':
-        specifier: workspace:^1
+        specifier: workspace:^1.0.2
         version: link:../allo
       '@hackbg/hide':
-        specifier: workspace:^1
+        specifier: workspace:^1.0.3
         version: link:../hide
       chalk:
         specifier: ^4
@@ -804,7 +804,7 @@ packages:
   /@types/docker-modem@3.0.2:
     resolution: {integrity: sha512-qC7prjoEYR2QEe6SmCVfB1x3rfcQtUr1n4x89+3e0wSTMQ/KYCyf+/RAA9n2tllkkNc6//JMUZePdFRiGIWfaQ==}
     dependencies:
-      '@types/node': 20.4.4
+      '@types/node': 20.5.7
       '@types/ssh2': 1.11.4
     dev: true
 
@@ -823,7 +823,7 @@ packages:
     resolution: {integrity: sha512-l6NQsDDyQUVeoTynNpC9uRvCUint/gSUXQA2euwmTuWGvPY5LSDUu6tkCtJB2SvGQlJQzLaKqcGZP4//7EDveA==}
     dependencies:
       '@types/minimatch': 5.1.2
-      '@types/node': 20.4.4
+      '@types/node': 20.5.7
     dev: true
 
   /@types/istanbul-lib-coverage@2.0.4:
@@ -864,12 +864,8 @@ packages:
   /@types/node@18.11.9:
     resolution: {integrity: sha512-CRpX21/kGdzjOpFsZSkcrXMGIBWMGNIHXXBVFSH+ggkftxg+XYP20TESbh+zFvFj3EQOl5byk0HTRn1IL6hbqg==}
 
-  /@types/node@20.4.2:
-    resolution: {integrity: sha512-Dd0BYtWgnWJKwO1jkmTrzofjK2QXXcai0dmtzvIBhcA+RsG5h8R3xlyta0kGOZRNfL9GuRtb1knmPEhQrePCEw==}
-    dev: true
-
-  /@types/node@20.4.4:
-    resolution: {integrity: sha512-CukZhumInROvLq3+b5gLev+vgpsIqC2D0deQr/yS1WnxvmYLlJXZpaQrQiseMY+6xusl79E04UjWoqyr+t1/Ew==}
+  /@types/node@20.5.7:
+    resolution: {integrity: sha512-dP7f3LdZIysZnmvP3ANJYTSwg+wLLl8p7RqniVlV7j+oXSXAbt9h0WIBFmJy5inWZoX9wZN6eXx+YXd9Rh3RBA==}
     dev: true
 
   /@types/rimraf@3.0.2:
@@ -888,7 +884,7 @@ packages:
   /@types/ssh2@1.11.4:
     resolution: {integrity: sha512-anmIRj5ciVsjLYx4lwMRvQcUw6FqGhVkPNmWVBfNsmb9LMO0wLF40BVazyBKry8gViRvLAldDfQvpKunFSZ9pA==}
     dependencies:
-      '@types/node': 20.4.4
+      '@types/node': 20.5.7
     dev: true
 
   /@types/tmp@0.2.3:
@@ -910,7 +906,7 @@ packages:
       vite: ^3.0.0
       vue: ^3.2.25
     dependencies:
-      vite: 3.2.5(@types/node@20.4.2)
+      vite: 3.2.5(@types/node@20.5.7)
       vue: 3.2.37
     dev: true
 
@@ -3455,7 +3451,7 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vite@3.2.5(@types/node@20.4.2):
+  /vite@3.2.5(@types/node@20.5.7):
     resolution: {integrity: sha512-4mVEpXpSOgrssFZAOmGIr85wPHKvaDAcXqxVxVRZhljkJOMZi1ibLibzjLHzJvcok8BMguLc7g1W6W/GqZbLdQ==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
@@ -3480,7 +3476,7 @@ packages:
       terser:
         optional: true
     dependencies:
-      '@types/node': 20.4.2
+      '@types/node': 20.5.7
       esbuild: 0.15.18
       postcss: 8.4.21
       resolve: 1.22.1
@@ -3489,7 +3485,7 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vitepress@1.0.0-alpha.10(@algolia/client-search@4.14.0)(@types/node@20.4.2):
+  /vitepress@1.0.0-alpha.10(@algolia/client-search@4.14.0)(@types/node@20.5.7):
     resolution: {integrity: sha512-RGPU+YApj2jaYplAIJUe+2qlDks9FzPX1QGK+7NdGByeCCVZg6z9eYWjjvfvA/sgCtG3yeJE/4/jCwlv4Y8bVw==}
     hasBin: true
     dependencies:
@@ -3500,7 +3496,7 @@ packages:
       '@vueuse/core': 9.12.0(vue@3.2.37)
       body-scroll-lock: 4.0.0-beta.0
       shiki: 0.11.1
-      vite: 3.2.5(@types/node@20.4.2)
+      vite: 3.2.5(@types/node@20.5.7)
       vue: 3.2.37
     transitivePeerDependencies:
       - '@algolia/client-search'
