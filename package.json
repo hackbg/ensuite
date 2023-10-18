@@ -1,7 +1,8 @@
 {
   "name": "@hackbg/ensuite",
-  "version": "1.4.5",
+  "version": "1.5.0-rc.0",
   "main": "ensuite.mjs",
+  "types": "ensuite.d.ts",
   "files": [
     "README.md",
     "*.cjs",
