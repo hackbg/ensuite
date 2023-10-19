@@ -66,7 +66,7 @@ export class TestSuite {
     if (resolve(process.argv[2]) === this.root) this.pickTest(process.argv[3])
   }
   async pickTest (picked) {
-    if (this.test.length === 0) {
+    if (this.tests.length === 0) {
       throw new Error('no tests defined')
     }
     if (picked === 'all') return testAll(tests)
