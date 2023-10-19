@@ -26,50 +26,19 @@ export async function main (root = process.cwd(), ...specs) {
   process.stdin.pause()
 }
 
-export function testEntrypoint (url, tests) {
-  const entrypoint = resolve(process.argv[2])
-  const mainScript = resolve(fileURLToPath(url))
-  if (entrypoint === mainScript) return pickTest(tests)
-  return tests
-}
-
-export async function pickTest (tests, picked = process.argv[3]) {
-  if (picked === 'all') return testAll(tests)
-  const test = tests[picked]
-  if (test) return await test()
-  console.log('\nSpecify suite to run:')
-  console.log(`  all`)
-  for (const test of Object.keys(tests)) {
-    console.log(`  ${test}`)
-  }
-  console.log()
-  process.exit(1)
-}
-
-export async function testAll (tests) {
-  const runs = Object.values(tests).map(test=>test())
-  return await Promise.all(runs)
-}
-
-export function testSuite (path) {
-  return async () => {
-    console.log('Testing:', path)
-    const { default: suite } = await import(path)
-    return pickTest(suite, process.argv[4])
-  }
-}
-
 export class TestSuite {
+
   constructor (root, tests = []) {
     this.root = resolve(fileURLToPath(root))
     this.tests = tests
     if (resolve(process.argv[2]) === this.root) this.pickTest(process.argv[3])
   }
+
   async pickTest (picked) {
     if (this.tests.length === 0) {
       throw new Error('no tests defined')
     }
-    if (picked === 'all') return testAll(tests)
+    if (picked === 'all') return this.testAll()
     const test = this.tests[picked]
     if (test) return await test()
     console.log('\nSpecify suite to run:')
@@ -80,4 +49,13 @@ export class TestSuite {
     console.log()
     process.exit(1)
   }
+
+  async testAll () {
+    const runs = this.tests.map(([name, test])=>{
+      console.log('Running test:', name)
+      return Promise.resolve(test())
+    })
+    return await Promise.all(runs)
+  }
+
 }
