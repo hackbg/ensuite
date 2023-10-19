@@ -58,3 +58,26 @@ export function testSuite (path) {
     return pickTest(suite, process.argv[4])
   }
 }
+
+export class TestSuite {
+  constructor (root, tests = []) {
+    this.root = resolve(fileURLToPath(root))
+    this.tests = tests
+    if (resolve(process.argv[2]) === this.root) this.pickTest(process.argv[3])
+  }
+  async pickTest (picked) {
+    if (this.test.length === 0) {
+      throw new Error('no tests defined')
+    }
+    if (picked === 'all') return testAll(tests)
+    const test = this.tests[picked]
+    if (test) return await test()
+    console.log('\nSpecify suite to run:')
+    console.log(`  all`)
+    for (const test of Object.keys(tests)) {
+      console.log(`  ${test}`)
+    }
+    console.log()
+    process.exit(1)
+  }
+}

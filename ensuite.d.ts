@@ -7,3 +7,7 @@ export function pickTest (tests: Record<string, Function>, picked?: string): nev
 export function testAll (tests: Record<string, Function>): Promise<unknown[]>
 
 export function testSuite (path: string): () => Promise<never>
+
+export class TestSuite {
+  constructor (root: string|URL, tests: Array<[string, Function]>)
+}
