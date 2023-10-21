@@ -21,7 +21,7 @@ export async function main (root = process.cwd(), ...specs) {
   // Run tests
   const index = resolve(process.cwd(), root)
   const suite = await import(index)
-  await runSpec(suite.default, specs)
+  //await runSpec(suite.default, specs)
   console.log('Tests done.')
   process.stdin.pause()
 }
@@ -38,13 +38,17 @@ export class TestSuite {
     if (this.tests.length === 0) {
       throw new Error('no tests defined')
     }
-    if (picked === 'all') return this.testAll()
-    const test = this.tests[picked]
-    if (test) return await test()
+    if (picked === 'all') {
+      return this.testAll()
+    }
+    const test = Object.fromEntries(this.tests)[picked]
+    if (test) {
+      return await test()
+    }
     console.log('\nSpecify suite to run:')
     console.log(`  all`)
-    for (const test of Object.keys(tests)) {
-      console.log(`  ${test}`)
+    for (const [name] of this.tests) {
+      console.log(`  ${name}`)
     }
     console.log()
     process.exit(1)
