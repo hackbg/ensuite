@@ -20,7 +20,9 @@
     "url": "https://github.com/hackbg/ensuite"
   },
   "scripts": {
-    "ubik": "ubik"
+    "ubik": "ubik",
+    "test": "./ensuite.cli.cjs ensuite.test.mjs",
+    "cov":  "./ensuite-cov.cli.cjs ensuite.test.mjs"
   },
   "description": "Literate test runner. Write tests in Markdown code blocks. Supports TypeScript without Babel.",
   "dependencies": {
