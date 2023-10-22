@@ -1,7 +1,7 @@
 import why from 'why-is-node-still-running'
-import { runSpec } from '@hackbg/spec'
 import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { Module } from 'node:module'
 
 main(...process.argv.slice(2))
 
@@ -21,7 +21,6 @@ export async function main (root = process.cwd(), ...specs) {
   // Run tests
   const index = resolve(process.cwd(), root)
   const suite = await import(index)
-  //await runSpec(suite.default, specs)
   console.log('Tests done.')
   process.stdin.pause()
 }
@@ -60,30 +59,60 @@ export class TestSuite {
     let suite = this
     while (argv.length > 0) {
       const name = argv.shift()
+      console.log(`Selecting: '${name}'`)
       if (name === 'all') {
+        console.log('Selected: all')
         return await suite.runAll()
       }
       if (!suite.tests.has(name)) {
+        console.log(`Not found: '${name}'`)
         return suite.selectTest()
-      } else if (suite.tests.get(name) instanceof TestSuite) {
-        suite = suite.tests.get(name)
-      } else if (typeof suite.tests.get(name) === 'function') {
-        return await Promise.resolve(suite.tests.get(name)())
-      } else {
-        throw new Error(`${name} is not a Function or TestSuite`)
       }
+      let selected = suite.tests.get(name)
+      if (selected instanceof TestSuite) {
+        console.log(`Selected: suite '${name}'`)
+        suite = selected
+        continue
+      }
+      if (typeof selected === 'function') {
+        selected = await Promise.resolve(selected())
+        if (!selected) {
+          return
+        }
+        console.log({selected}, selected instanceof Module)
+        if (selected instanceof TestSuite) {
+          console.log(`Selected: suite '${name}'`)
+          suite = selected
+          continue
+        }
+        if (selected[Symbol.toStringTag] === 'Module' && selected.default instanceof TestSuite) {
+          console.log(`Selected: suite '${name}'`)
+          suite = selected.default
+          continue
+        }
+        if (selected[Symbol.toStringTag] === 'Module' && typeof selected.default === 'function') {
+          console.log(`Selected: test '${name}'`)
+          return await Promise.resolve(selected())
+        }
+        if (selected[Symbol.toStringTag] === 'Module') {
+          console.log(`Selected: invalid '${name}'`)
+          throw new Error(
+            `default export of Module returned by test '${name}' should be Function or TestSuite`
+          )
+        }
+        return selected
+      }
+      throw new Error(`${name} is not a Function or TestSuite`)
     }
     return suite.selectTest()
   }
 
   runAll () {
-    return Promise.all([...this.tests.entries()].map(([name, test])=>{
+    const names = [...this.tests.keys()]
+    console.log({names})
+    return Promise.all(names.map(async name=>{
       console.log('Running test:', name)
-      if (typeof test === 'function') {
-        return Promise.resolve(test())
-      } else if (test instanceof TestSuite) {
-        return Promise.resolve(test.runAll())
-      }
+      return this.run(name)
     }))
   }
 

@@ -2,6 +2,7 @@
   "name": "@hackbg/ensuite",
   "version": "1.5.0-rc.0",
   "main": "ensuite.mjs",
+  "type": "module",
   "types": "ensuite.d.ts",
   "files": [
     "README.md",
