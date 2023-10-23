@@ -44,24 +44,25 @@ export async function main (root = process.cwd(), ...specs) {
 
 }
 
-export class TestSuite {
+export class Suite {
 
   constructor (tests = []) {
     for (const [name, test] of tests) {
       if (name === 'all') {
         throw new Error("'all' is a reserved name")
       }
-      if (!((typeof test === 'function')||test instanceof TestSuite)) {
-        throw new Error(`'${name}' must be Function or TestSuite`)
+      if (!((typeof test === 'function')||test instanceof Suite)) {
+        throw new Error(`'${name}' must be Function or Suite`)
       }
     }
     this.tests = new Map(tests)
   }
 
-  async run ({ argv = [] } = {}) {
+  async run ({ argv = [], all = false } = {}) {
+    console.debug(`Selection: '${argv.join(' ')}'`)
     argv = [...argv]
     if (this.tests.length === 0) {
-      throw new Error('no tests defined')
+      throw new Error('no tests static')
     }
     if (argv.length === 0) {
       return this.selectTest()
@@ -74,7 +75,7 @@ export class TestSuite {
       const name = argv.shift()
       console.debug(`Selecting: '${name}'`)
       if (name === 'all') {
-        console.debug('Selected: all')
+        console.debug('Selected all')
         return await suite.runAll()
       }
       if (!suite.tests.has(name)) {
@@ -82,49 +83,53 @@ export class TestSuite {
         return suite.selectTest()
       }
       let selected = suite.tests.get(name)
-      if (selected instanceof TestSuite) {
-        console.debug(`Selected: suite '${name}'`)
-        suite = selected
-        continue
+      if (selected instanceof Suite) {
+        console.debug(`Selected: static suite '${name}'`, all)
+        if (all) {
+          return await selected.runAll()
+        } else {
+          suite = selected
+          continue
+        }
       }
       if (typeof selected === 'function') {
         selected = await Promise.resolve(selected())
         if (!selected) {
           return
         }
-        console.debug({selected}, selected instanceof Module)
-        if (selected instanceof TestSuite) {
-          console.debug(`Selected: suite '${name}'`)
+        if (selected instanceof Suite) {
+          console.debug(`Selected: dynamic suite '${name}'`)
           suite = selected
           continue
         }
-        if (selected[Symbol.toStringTag] === 'Module' && selected.default instanceof TestSuite) {
-          console.debug(`Selected: suite '${name}'`)
+        if (selected[Symbol.toStringTag] === 'Module' && selected.default instanceof Suite) {
+          console.debug(`Selected: dynamic suite '${name}'`)
           suite = selected.default
           continue
         }
         if (selected[Symbol.toStringTag] === 'Module' && typeof selected.default === 'function') {
-          console.debug(`Selected: test '${name}'`)
+          console.debug(`Selected: dynamic test '${name}'`)
           return await Promise.resolve(selected())
         }
         if (selected[Symbol.toStringTag] === 'Module') {
-          console.debug(`Selected: invalid '${name}'`)
+          console.debug(`Selected: dynamic invalid '${name}'`)
           throw new Error(
-            `default export of Module returned by test '${name}' should be Function or TestSuite`
+            `default export of Module dynamic by test '${name}' should be Function or Suite`
           )
         }
         return selected
       }
-      throw new Error(`${name} is not a Function or TestSuite`)
+      throw new Error(`${name} is not a Function or Suite`)
     }
     return suite.selectTest()
   }
 
   runAll () {
     const names = [...this.tests.keys()]
+    console.debug(`Running all: '${names.join(' ')}'`)
     return Promise.all(names.map(async name=>{
       console.debug('Running test:', name)
-      return this.run({ argv: [name] })
+      return this.run({ argv: [name], all: true })
     }))
   }
 

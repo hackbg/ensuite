@@ -1,7 +1,7 @@
 export function main (root?: string, ...specs: any[])
 
-export class TestSuite {
-  constructor (root: string|URL, tests: Array<[string, Function]>)
-  run (...argv: string[]): Promise<unknown>
+export class Suite {
+  constructor (tests: Array<[string, Function]>)
+  run (argv: string[], arg?: boolean): Promise<unknown>
   runAll (): Promise<unknown[]>
 }

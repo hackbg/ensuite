@@ -1,18 +1,18 @@
-import { TestSuite } from './ensuite.mjs'
+import { Suite } from './ensuite.mjs'
 import { Console } from '@hackbg/logs'
 const console = new Console('test suite for @hackbg/ensuite')
 
-export default new TestSuite([
+export default new Suite([
 
   ["test", () => {console.log('ran:test')}],
 
-  ["sub", new TestSuite("", [
+  ["sub", new Suite([
 
     ["sub1", () => {console.log('ran:sub1')}],
 
     ["sub2", () => {console.log('ran:sub2')}],
 
-    ["sub3", new TestSuite("", [
+    ["sub3", new Suite([
 
       ["sub3a", () => {console.log('ran:sub3a')}],
 
