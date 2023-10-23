@@ -109,7 +109,7 @@ export class Suite {
         if (selected[Symbol.toStringTag] === 'Module' && selected.default instanceof Suite) {
           console.debug(`Selected: dynamic suite '${name}'`)
           if (all) {
-            return await selected.runAll()
+            return await selected.default.runAll()
           } else {
             suite = selected
             continue
@@ -117,7 +117,7 @@ export class Suite {
         }
         if (selected[Symbol.toStringTag] === 'Module' && typeof selected.default === 'function') {
           console.debug(`Selected: dynamic test '${name}'`)
-          return await Promise.resolve(selected())
+          return await Promise.resolve(selected.default())
         }
         if (selected[Symbol.toStringTag] === 'Module') {
           console.debug(`Selected: dynamic invalid '${name}'`)
