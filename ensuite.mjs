@@ -99,13 +99,21 @@ export class Suite {
         }
         if (selected instanceof Suite) {
           console.debug(`Selected: dynamic suite '${name}'`)
-          suite = selected
-          continue
+          if (all) {
+            return await selected.runAll()
+          } else {
+            suite = selected
+            continue
+          }
         }
         if (selected[Symbol.toStringTag] === 'Module' && selected.default instanceof Suite) {
           console.debug(`Selected: dynamic suite '${name}'`)
-          suite = selected.default
-          continue
+          if (all) {
+            return await selected.runAll()
+          } else {
+            suite = selected
+            continue
+          }
         }
         if (selected[Symbol.toStringTag] === 'Module' && typeof selected.default === 'function') {
           console.debug(`Selected: dynamic test '${name}'`)
