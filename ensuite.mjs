@@ -2,36 +2,51 @@ import why from 'why-is-node-still-running'
 import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { Module } from 'node:module'
+import { Console } from '@hackbg/logs'
+const console = new Console('@hackbg/ensuite')
 
 main(...process.argv.slice(2))
 
 export async function main (root = process.cwd(), ...specs) {
+
   // If tests don't exit, press "?" to see why
-  if (process.stdin.setRawMode) process.stdin.setRawMode(true)
-  process.stdin.resume()
-  process.stdin.setEncoding('utf8')
-  process.stdin.on('data', key => {
-    if (key === '\u0003' || key === '\u0004') {
-      process.exit(100)
-    }
-    if (key === '?') {
-      why.whyIsNodeStillRunning()
-    }
-  })
+  if (process.env.ENSUITE_WHY) {
+    if (process.stdin.setRawMode) process.stdin.setRawMode(true)
+    process.stdin.resume()
+    process.stdin.setEncoding('utf8')
+    process.stdin.on('data', key => {
+      if (key === '\u0003' || key === '\u0004') {
+        process.exit(100)
+      }
+      if (key === '?') {
+        why.whyIsNodeStillRunning()
+      }
+    })
+  }
+
   // Run tests
   const index = resolve(process.cwd(), root)
-  const suite = await import(index)
+  const { default: suite } = await import(index)
+  if (resolve(process.argv[2]) === index) {
+    await new Promise(resolve=>{
+      setImmediate(async ()=>{
+        await Promise.resolve(suite.run({ argv: process.argv.slice(3) }))
+        resolve()
+      })
+    })
+  }
+
   console.log('Tests done.')
-  process.stdin.pause()
+
+  if (process.env.ENSUITE_WHY) {
+    process.stdin.pause()
+  }
+
 }
 
 export class TestSuite {
 
-  constructor (
-    root,
-    tests = []
-  ) {
-    this.root = root ? resolve(fileURLToPath(root)) : null
+  constructor (tests = []) {
     for (const [name, test] of tests) {
       if (name === 'all') {
         throw new Error("'all' is a reserved name")
@@ -41,12 +56,10 @@ export class TestSuite {
       }
     }
     this.tests = new Map(tests)
-    if (resolve(process.argv[2]) === this.root) {
-      setImmediate(()=>this.run(...process.argv.slice(3)))
-    }
   }
 
-  async run (...argv) {
+  async run ({ argv = [] } = {}) {
+    argv = [...argv]
     if (this.tests.length === 0) {
       throw new Error('no tests defined')
     }
@@ -59,18 +72,18 @@ export class TestSuite {
     let suite = this
     while (argv.length > 0) {
       const name = argv.shift()
-      console.log(`Selecting: '${name}'`)
+      console.debug(`Selecting: '${name}'`)
       if (name === 'all') {
-        console.log('Selected: all')
+        console.debug('Selected: all')
         return await suite.runAll()
       }
       if (!suite.tests.has(name)) {
-        console.log(`Not found: '${name}'`)
+        console.debug(`Not found: '${name}'`)
         return suite.selectTest()
       }
       let selected = suite.tests.get(name)
       if (selected instanceof TestSuite) {
-        console.log(`Selected: suite '${name}'`)
+        console.debug(`Selected: suite '${name}'`)
         suite = selected
         continue
       }
@@ -79,23 +92,23 @@ export class TestSuite {
         if (!selected) {
           return
         }
-        console.log({selected}, selected instanceof Module)
+        console.debug({selected}, selected instanceof Module)
         if (selected instanceof TestSuite) {
-          console.log(`Selected: suite '${name}'`)
+          console.debug(`Selected: suite '${name}'`)
           suite = selected
           continue
         }
         if (selected[Symbol.toStringTag] === 'Module' && selected.default instanceof TestSuite) {
-          console.log(`Selected: suite '${name}'`)
+          console.debug(`Selected: suite '${name}'`)
           suite = selected.default
           continue
         }
         if (selected[Symbol.toStringTag] === 'Module' && typeof selected.default === 'function') {
-          console.log(`Selected: test '${name}'`)
+          console.debug(`Selected: test '${name}'`)
           return await Promise.resolve(selected())
         }
         if (selected[Symbol.toStringTag] === 'Module') {
-          console.log(`Selected: invalid '${name}'`)
+          console.debug(`Selected: invalid '${name}'`)
           throw new Error(
             `default export of Module returned by test '${name}' should be Function or TestSuite`
           )
@@ -109,20 +122,18 @@ export class TestSuite {
 
   runAll () {
     const names = [...this.tests.keys()]
-    console.log({names})
     return Promise.all(names.map(async name=>{
-      console.log('Running test:', name)
-      return this.run(name)
+      console.debug('Running test:', name)
+      return this.run({ argv: [name] })
     }))
   }
 
   selectTest () {
-    console.log('\nPlease specify a test suite to run:')
-    console.log(`  all`)
+    console.info('Please specify a test suite to run:')
+    console.info(`  all`)
     for (const name of this.tests.keys()) {
-      console.log(`  ${name}`)
+      console.info(`  ${name}`)
     }
-    console.log()
     process.exit(1)
   }
 
