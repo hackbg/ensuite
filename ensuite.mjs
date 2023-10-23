@@ -111,7 +111,7 @@ export class Suite {
           if (all) {
             return await selected.default.runAll()
           } else {
-            suite = selected
+            suite = selected.default
             continue
           }
         }
