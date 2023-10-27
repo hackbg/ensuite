@@ -1,4 +1,4 @@
-export function main (root?: string, ...specs: any[])
+export function main (root?: string, ...specs: any[]): Promise<never>
 
 export class Suite {
   constructor (tests: Array<[string, Function]>)
