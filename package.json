@@ -1,6 +1,6 @@
 {
   "name": "@hackbg/ensuite",
-  "version": "1.5.0-rc.0",
+  "version": "1.5.0",
   "main": "ensuite.mjs",
   "type": "module",
   "types": "ensuite.d.ts",
@@ -27,12 +27,14 @@
   },
   "description": "Literate test runner. Write tests in Markdown code blocks. Supports TypeScript without Babel.",
   "dependencies": {
-    "@types/js-yaml": "^4.0.5",
+    "@types/js-yaml":     "^4.0.5",
     "@types/markdown-it": "*",
+
     "@hackbg/ganesha": "workspace:^4.2.0",
-    "@hackbg/spec": "workspace:^1",
-    "@hackbg/logs": "workspace:^*",
-    "@hackbg/file": "workspace:^*",
+    "@hackbg/spec":    "workspace:^1.0.0",
+    "@hackbg/logs":    "workspace:^2.0.7",
+    "@hackbg/file":    "workspace:^1.2.3",
+
     "c8": "^7.12",
     "glob": "^9.2.1",
     "highlight.js": "^11.7.0",
