@@ -2,7 +2,7 @@ import why from 'why-is-node-still-running'
 import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { Module } from 'node:module'
-import { Console } from '@hackbg/logs'
+import { Console, bold } from '@hackbg/logs'
 const console = new Console('@hackbg/ensuite')
 
 main(...process.argv.slice(2))
@@ -59,7 +59,7 @@ export class Suite {
   }
 
   async run ({ argv = [], all = false } = {}) {
-    console.debug(`Selection: '${argv.join(' ')}'`)
+    //console.debug(`Selection: '${argv.join(' ')}'`)
     argv = [...argv]
     if (this.tests.length === 0) {
       throw new Error('no tests static')
@@ -73,18 +73,18 @@ export class Suite {
     let suite = this
     while (argv.length > 0) {
       const name = argv.shift()
-      console.debug(`Selecting: '${name}'`)
+      //console.debug(`Selecting: '${name}'`)
       if (name === 'all') {
         console.debug('Selected all')
         return await suite.runAll()
       }
       if (!suite.tests.has(name)) {
-        console.debug(`Not found: '${name}'`)
+        console.debug(`Not found: ${bold(name)}`)
         return suite.selectTest()
       }
       let selected = suite.tests.get(name)
       if (selected instanceof Suite) {
-        console.debug(`Selected: static suite '${name}'`, all)
+        console.debug(`Running: static suite ${bold(name)}`, all)
         if (all) {
           return await selected.runAll()
         } else {
@@ -98,7 +98,7 @@ export class Suite {
           return
         }
         if (selected instanceof Suite) {
-          console.debug(`Selected: dynamic suite '${name}'`)
+          console.debug(`Running: dynamic suite ${bold(name)}`)
           if (all) {
             return await selected.runAll()
           } else {
@@ -107,7 +107,7 @@ export class Suite {
           }
         }
         if (selected[Symbol.toStringTag] === 'Module' && selected.default instanceof Suite) {
-          console.debug(`Selected: dynamic suite '${name}'`)
+          console.debug(`Running: dynamic suite ${bold(name)}`)
           if (all) {
             return await selected.default.runAll()
           } else {
@@ -116,11 +116,11 @@ export class Suite {
           }
         }
         if (selected[Symbol.toStringTag] === 'Module' && typeof selected.default === 'function') {
-          console.debug(`Selected: dynamic test '${name}'`)
+          console.debug(`Running: dynamic test ${bold(name)}`)
           return await Promise.resolve(selected.default())
         }
         if (selected[Symbol.toStringTag] === 'Module') {
-          console.debug(`Selected: dynamic invalid '${name}'`)
+          console.debug(`Invalid: ${bold(name)}`)
           throw new Error(
             `default export of Module dynamic by test '${name}' should be Function or Suite`
           )
@@ -134,9 +134,8 @@ export class Suite {
 
   runAll () {
     const names = [...this.tests.keys()]
-    console.debug(`Running all: '${names.join(' ')}'`)
+    console.debug(`Running: all of ${names.map(x=>bold(x)).join(', ')}`)
     return Promise.all(names.map(async name=>{
-      console.debug('Running test:', name)
       return this.run({ argv: [name], all: true })
     }))
   }
