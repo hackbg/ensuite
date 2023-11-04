@@ -37,6 +37,7 @@ export async function main (root = process.cwd(), ...specs) {
   }
 
   console.log('Tests done.')
+  process.exit(0)
 
   if (process.env.ENSUITE_WHY) {
     process.stdin.pause()
