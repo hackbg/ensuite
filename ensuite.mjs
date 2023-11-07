@@ -60,7 +60,7 @@ export class Suite {
   }
 
   async run ({ argv = [], all = false } = {}) {
-    //console.debug(`Selection: '${argv.join(' ')}'`)
+    //console.info(`Selection: '${argv.join(' ')}'`)
     argv = [...argv]
     if (this.tests.length === 0) {
       throw new Error('no tests static')
@@ -74,18 +74,18 @@ export class Suite {
     let suite = this
     while (argv.length > 0) {
       const name = argv.shift()
-      //console.debug(`Selecting: '${name}'`)
+      //console.info(`Selecting: '${name}'`)
       if (name === 'all') {
-        console.debug('Selected all')
+        console.info('Selected all')
         return await suite.runAll()
       }
       if (!suite.tests.has(name)) {
-        console.debug(`Not found: ${bold(name)}`)
+        console.info(`Not found: ${bold(name)}`)
         return suite.selectTest()
       }
       let selected = suite.tests.get(name)
       if (selected instanceof Suite) {
-        console.debug(`Running: static suite ${bold(name)}`, all)
+        console.info(`Running: static suite ${bold(name)}`, all)
         if (all) {
           return await selected.runAll()
         } else {
@@ -99,7 +99,7 @@ export class Suite {
           return
         }
         if (selected instanceof Suite) {
-          console.debug(`Running: dynamic suite ${bold(name)}`)
+          console.info(`Running: dynamic suite ${bold(name)}`)
           if (all) {
             return await selected.runAll()
           } else {
@@ -108,7 +108,7 @@ export class Suite {
           }
         }
         if (selected[Symbol.toStringTag] === 'Module' && selected.default instanceof Suite) {
-          console.debug(`Running: dynamic suite ${bold(name)}`)
+          console.info(`Running: dynamic suite ${bold(name)}`)
           if (all) {
             return await selected.default.runAll()
           } else {
@@ -117,11 +117,11 @@ export class Suite {
           }
         }
         if (selected[Symbol.toStringTag] === 'Module' && typeof selected.default === 'function') {
-          console.debug(`Running: dynamic test ${bold(name)}`)
+          console.info(`Running: dynamic test ${bold(name)}`)
           return await Promise.resolve(selected.default())
         }
         if (selected[Symbol.toStringTag] === 'Module') {
-          console.debug(`Invalid: ${bold(name)}`)
+          console.info(`Invalid: ${bold(name)}`)
           throw new Error(
             `default export of Module dynamic by test '${name}' should be Function or Suite`
           )
@@ -135,7 +135,7 @@ export class Suite {
 
   runAll () {
     const names = [...this.tests.keys()]
-    console.debug(`Running: all of ${names.map(x=>bold(x)).join(', ')}`)
+    console.info(`Running: all of ${names.map(x=>bold(x)).join(', ')}`)
     return Promise.all(names.map(async name=>{
       return this.run({ argv: [name], all: true })
     }))
