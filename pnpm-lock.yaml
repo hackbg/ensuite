@@ -5,7 +5,7 @@ importers:
   .:
     dependencies:
       '@hackbg/file':
-        specifier: workspace:^1.2.3
+        specifier: workspace:2.0.0-rc.1
         version: link:toolbox/file
       '@hackbg/ganesha':
         specifier: workspace:^4.2.0
@@ -223,7 +223,7 @@ importers:
         version: link:ubik
       '@types/node':
         specifier: latest
-        version: 20.8.10
+        version: 20.9.0
       concurrently:
         specifier: 7.2.2
         version: 7.2.2
@@ -305,7 +305,7 @@ importers:
   toolbox/dock:
     dependencies:
       '@hackbg/file':
-        specifier: workspace:^1.1
+        specifier: workspace:^2.0.0-rc.1
         version: link:../file
       '@hackbg/hide':
         specifier: workspace:^1
@@ -474,10 +474,12 @@ importers:
         specifier: ^3.1.0
         version: 3.1.0
 
+  toolbox/prop: {}
+
   toolbox/repo:
     dependencies:
       '@hackbg/file':
-        specifier: workspace:^1.2.3
+        specifier: workspace:^2.0.0-rc.1
         version: link:../file
       '@hackbg/logs':
         specifier: workspace:^2.0.7
@@ -660,7 +662,7 @@ packages:
   /@types/docker-modem@3.0.2:
     resolution: {integrity: sha512-qC7prjoEYR2QEe6SmCVfB1x3rfcQtUr1n4x89+3e0wSTMQ/KYCyf+/RAA9n2tllkkNc6//JMUZePdFRiGIWfaQ==}
     dependencies:
-      '@types/node': 20.8.10
+      '@types/node': 20.9.0
       '@types/ssh2': 1.11.4
     dev: true
 
@@ -675,7 +677,7 @@ packages:
     resolution: {integrity: sha512-l6NQsDDyQUVeoTynNpC9uRvCUint/gSUXQA2euwmTuWGvPY5LSDUu6tkCtJB2SvGQlJQzLaKqcGZP4//7EDveA==}
     dependencies:
       '@types/minimatch': 5.1.2
-      '@types/node': 20.8.10
+      '@types/node': 20.9.0
     dev: true
 
   /@types/istanbul-lib-coverage@2.0.4:
@@ -716,8 +718,8 @@ packages:
   /@types/node@18.11.9:
     resolution: {integrity: sha512-CRpX21/kGdzjOpFsZSkcrXMGIBWMGNIHXXBVFSH+ggkftxg+XYP20TESbh+zFvFj3EQOl5byk0HTRn1IL6hbqg==}
 
-  /@types/node@20.8.10:
-    resolution: {integrity: sha512-TlgT8JntpcbmKUFzjhsyhGfP2fsiz1Mv56im6enJ905xG1DAYesxJaeSbGqQmAw8OWPdhyJGhGSQGKRNJ45u9w==}
+  /@types/node@20.9.0:
+    resolution: {integrity: sha512-nekiGu2NDb1BcVofVcEKMIwzlx4NjHlcjhoxxKBNLtz15Y1z7MYf549DFvkHSId02Ax6kGwWntIBPC3l/JZcmw==}
     dependencies:
       undici-types: 5.26.5
     dev: true
@@ -738,7 +740,7 @@ packages:
   /@types/ssh2@1.11.4:
     resolution: {integrity: sha512-anmIRj5ciVsjLYx4lwMRvQcUw6FqGhVkPNmWVBfNsmb9LMO0wLF40BVazyBKry8gViRvLAldDfQvpKunFSZ9pA==}
     dependencies:
-      '@types/node': 20.8.10
+      '@types/node': 20.9.0
     dev: true
 
   /@types/tmp@0.2.3:
