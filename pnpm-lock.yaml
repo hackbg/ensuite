@@ -172,9 +172,6 @@ importers:
         specifier: workspace:^3
         version: link:../node
     devDependencies:
-      '@hackbg/ganesha':
-        specifier: workspace:../..
-        version: link:../..
       typescript:
         specifier: ^5
         version: 5.0.2
@@ -218,6 +215,9 @@ importers:
         specifier: ^3.0.7
         version: 3.0.7
     devDependencies:
+      '@hackbg/ganesha':
+        specifier: ^4.2
+        version: link:../ganesha
       '@hackbg/ubik':
         specifier: workspace:*
         version: link:ubik
@@ -260,16 +260,8 @@ importers:
       secure-random:
         specifier: ^1.1.2
         version: 1.1.2
-    devDependencies:
-      '@hackbg/ganesha':
-        specifier: ^4.2
-        version: link:../../ganesha
 
-  toolbox/allo:
-    devDependencies:
-      '@hackbg/ganesha':
-        specifier: ^4.2
-        version: link:../../ganesha
+  toolbox/allo: {}
 
   toolbox/atom:
     devDependencies:
@@ -336,14 +328,7 @@ importers:
         specifier: ^1.4.5
         version: link:../..
 
-  toolbox/dump:
-    devDependencies:
-      '@hackbg/ganesha':
-        specifier: ^4.2
-        version: link:../../ganesha
-      '@hackbg/ubik':
-        specifier: workspace:*
-        version: link:../ubik
+  toolbox/dump: {}
 
   toolbox/emit:
     devDependencies:
@@ -384,9 +369,6 @@ importers:
         specifier: ^3
         version: 3.0.0
     devDependencies:
-      '@hackbg/ganesha':
-        specifier: ^4.2
-        version: link:../../ganesha
       '@hackbg/spec':
         specifier: workspace:*
         version: link:../spec
@@ -414,22 +396,10 @@ importers:
       zen-observable:
         specifier: ^0.8.15
         version: 0.8.15
-    devDependencies:
-      '@hackbg/ganesha':
-        specifier: ^4.2
-        version: link:../../ganesha
 
-  toolbox/hide:
-    devDependencies:
-      '@hackbg/ganesha':
-        specifier: ^4.2
-        version: link:../../ganesha
+  toolbox/hide: {}
 
-  toolbox/into:
-    devDependencies:
-      '@hackbg/ganesha':
-        specifier: ^4.2
-        version: link:../../ganesha
+  toolbox/into: {}
 
   toolbox/logs:
     dependencies:
@@ -442,28 +412,12 @@ importers:
       chalk:
         specifier: ^4
         version: 4.1.2
-    devDependencies:
-      '@hackbg/ganesha':
-        specifier: ^4.2
-        version: link:../../ganesha
 
-  toolbox/many:
-    devDependencies:
-      '@hackbg/ganesha':
-        specifier: ^4.2
-        version: link:../../ganesha
+  toolbox/many: {}
 
-  toolbox/oops:
-    devDependencies:
-      '@hackbg/ganesha':
-        specifier: ^4.2
-        version: link:../../ganesha
+  toolbox/oops: {}
 
-  toolbox/over:
-    devDependencies:
-      '@hackbg/ganesha':
-        specifier: ^4.2
-        version: link:../../ganesha
+  toolbox/over: {}
 
   toolbox/port:
     dependencies:
@@ -492,16 +446,8 @@ importers:
       '@hackbg/logs':
         specifier: workspace:^2.0.1
         version: link:../logs
-    devDependencies:
-      '@hackbg/ganesha':
-        specifier: ^4.2
-        version: link:../../ganesha
 
-  toolbox/time:
-    devDependencies:
-      '@hackbg/ganesha':
-        specifier: ^4.2
-        version: link:../../ganesha
+  toolbox/time: {}
 
   toolbox/ubik:
     dependencies:
