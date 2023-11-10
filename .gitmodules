@@ -1,4 +1,0 @@
-[submodule "ganesha"]
-	path   = ganesha
-	url    = https://github.com/hackbg/ganesha.git
-	branch = develop
