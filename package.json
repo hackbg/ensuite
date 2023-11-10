@@ -1,6 +1,6 @@
 {
   "name": "@hackbg/ensuite",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "main": "ensuite.mjs",
   "type": "module",
   "types": "ensuite.d.ts",
@@ -32,10 +32,9 @@
     "@types/js-yaml":     "^4.0.5",
     "@types/markdown-it": "*",
 
-    "@hackbg/ganesha": "workspace:^4.2.0",
-    "@hackbg/spec":    "workspace:^1.0.0",
-    "@hackbg/logs":    "workspace:^2.0.7",
-    "@hackbg/file":    "workspace:2.0.0",
+    "@hackbg/ganesha": "4.2.0",
+    "@hackbg/logs": "2.0.8",
+    "@hackbg/file": "2.0.0",
 
     "c8": "^7.12",
     "glob": "^9.2.1",
@@ -51,7 +50,7 @@
     "ws": "^8.13.0"
   },
   "devDependencies": {
-    "@hackbg/ubik": "workspace:*"
+    "@hackbg/ubik": "2.0.0-rc.2"
   },
   "workspace": true,
   "packages": [
