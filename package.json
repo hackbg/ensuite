@@ -1,6 +1,6 @@
 {
   "name": "@hackbg/ensuite",
-  "version": "1.5.2",
+  "version": "1.5.3",
   "main": "ensuite.mjs",
   "type": "module",
   "types": "ensuite.d.ts",
@@ -24,8 +24,7 @@
     "check": "tsc --noEmit",
     "test": "./ensuite.cli.cjs ensuite.test.mjs",
     "cov": "./ensuite-cov.cli.cjs ensuite.test.mjs",
-    "ubik": "ubik",
-    "release": "pnpm check && pnpm cov all && pnpm ubik publish --access public --otp 123123"
+    "release": "pnpm check && pnpm cov all && ubik release --access public --otp 123123"
   },
   "description": "Literate test runner. Write tests in Markdown code blocks. Supports TypeScript without Babel.",
   "dependencies": {
@@ -50,7 +49,7 @@
     "ws": "^8.13.0"
   },
   "devDependencies": {
-    "@hackbg/ubik": "2.0.0-rc.2"
+    "@hackbg/ubik": "^2"
   },
   "workspace": true,
   "packages": [
