@@ -2,3 +2,6 @@ coverage:
   exclude:
     - ganesha
     - toolbox
+    - "*.d.ts"
+    - "*.cli.*"
+    - coverage
