@@ -9,6 +9,14 @@ main(...process.argv.slice(2))
 
 export async function main (root = process.cwd(), ...specs) {
 
+  // Handle exceptions and rejections
+  process.on('uncaughtExceptionMonitor', (error, origin) => {
+    console.warn('Uncaught exception:', { error, origin })
+  })
+  process.on('unhandledRejection', (reason, promise) => {
+    console.warn('Unhandled promise rejection:', { reason, promise })
+  })
+
   // If tests don't exit, press "?" to see why
   if (process.env.ENSUITE_WHY) {
     if (process.stdin.setRawMode) process.stdin.setRawMode(true)
@@ -24,15 +32,14 @@ export async function main (root = process.cwd(), ...specs) {
     })
   }
 
-  // Run tests
+  // Load and run tests
   const index = resolve(process.cwd(), root)
   const { default: suite } = await import(index)
   if (resolve(process.argv[2]) === index) {
-    await new Promise(resolve=>{
-      setImmediate(async ()=>{
-        await Promise.resolve(suite.run({ argv: process.argv.slice(3) }))
-        resolve()
-      })
+    await new Promise((resolve, reject)=>{
+      setImmediate(()=>Promise.resolve(suite.run({
+        argv: process.argv.slice(3)
+      })).then(resolve, reject))
     })
   }
 
