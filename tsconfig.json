@@ -1,6 +1,5 @@
 {
   "exclude": [ "ganesha", "toolbox" ],
   "compilerOptions": {
-    "composite": true
   }
 }
