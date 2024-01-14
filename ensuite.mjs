@@ -12,9 +12,11 @@ export async function main (root = process.cwd(), ...specs) {
   // Handle exceptions and rejections
   process.on('uncaughtExceptionMonitor', (error, origin) => {
     console.warn('Uncaught exception:', { error, origin })
+    throw error
   })
   process.on('unhandledRejection', (reason, promise) => {
     console.warn('Unhandled promise rejection:', { reason, promise })
+    throw reason
   })
 
   // If tests don't exit, press "?" to see why
