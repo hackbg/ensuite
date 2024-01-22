@@ -5,9 +5,7 @@ import { Module } from 'node:module'
 import { Console, bold } from '@hackbg/logs'
 const console = new Console('@hackbg/ensuite')
 
-main(...process.argv.slice(2))
-
-export async function main (root = process.cwd(), ...specs) {
+export default async function main (root = process.cwd(), ...specs) {
 
   // Handle exceptions and rejections
   process.on('uncaughtExceptionMonitor', (error, origin) => {

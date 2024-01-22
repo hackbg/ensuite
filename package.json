@@ -1,20 +1,17 @@
 {
   "name": "@hackbg/ensuite",
-  "version": "1.6.0",
-  "main": "ensuite.mjs",
   "type": "module",
+  "main": "ensuite.mjs",
   "types": "ensuite.d.ts",
-  "files": [
-    "README.md",
-    "*.cjs",
-    "*.mjs"
-  ],
+  "version": "2.0.0-rc.1",
+  "description": "Literate test runner. Write tests in Markdown code blocks. Supports TypeScript without Babel.",
+  "files": ["README.md", "*.mjs"],
   "bin": {
-    "ensuite": "ensuite.cli.cjs",
-    "ensuite-cov": "ensuite-cov.cli.cjs",
-    "ensuite-dev": "ensuite-dev.cli.cjs",
+    "ensuite": "ensuite.cli.mjs",
+    "ensuite-cov": "ensuite-cov.cli.mjs",
+    "ensuite-dev": "ensuite-dev.cli.mjs",
     "ensuite-render": "ensuite-render.cli.mjs",
-    "ensuite-reload": "ensuite-reload.cli.cjs"
+    "ensuite-reload": "ensuite-reload.cli.mjs"
   },
   "repository": {
     "type": "git",
@@ -22,14 +19,13 @@
   },
   "scripts": {
     "check": "tsc --noEmit",
-    "test": "./ensuite.cli.cjs ensuite.test.mjs",
-    "cov": "./ensuite-cov.cli.cjs ensuite.test.mjs",
+    "test": "./ensuite.cli.mjs ensuite.test.mjs",
+    "cov": "./ensuite-cov.cli.mjs ensuite.test.mjs",
     "release": "pnpm check && pnpm cov all && ubik release --access public --otp 123123"
   },
-  "description": "Literate test runner. Write tests in Markdown code blocks. Supports TypeScript without Babel.",
   "dependencies": {
     "@hackbg/file": "^2.0.2",
-    "@hackbg/ganesha": "4.2.0",
+    "@ganesha/esbuild": "1.0.0-rc.1",
     "@hackbg/logs": "^2.1.0",
     "@types/js-yaml": "^4.0.9",
     "@types/markdown-it": "^13.0.7",
@@ -48,11 +44,5 @@
   },
   "devDependencies": {
     "@hackbg/ubik": "^2.0.8"
-  },
-  "workspace": true,
-  "packages": [
-    ".",
-    "./ganesha",
-    "./toolbox"
-  ]
+  }
 }

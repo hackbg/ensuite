@@ -1,12 +1,13 @@
-#!/usr/bin/env ganesha-run
+#!/usr/bin/env node
 
-const { readFileSync } = require('fs')
-const { join, sep, resolve } = require('path')
-const { createServer } = require('http')
-const { statSync } = require('fs')
-const { load } = require('js-yaml')
+import { readFileSync } from 'node:fs'
+import { join, sep, resolve } from 'node:path'
+import { createServer } from 'node:http'
+import { statSync } from 'node:fs'
+import { load } from 'js-yaml'
+import { WebSocketServer } from 'ws'
+import { Console } from '@hackbg/logs'
 
-const { Console } = require('@hackbg/logs')
 const console = new Console('ensuite-dev')
 
 if (require.main === module) main({}, process.argv.slice(2))
@@ -21,13 +22,12 @@ async function main (state, args) {
   state.port   ||= port
   state.config ||= load(readFileSync(config, 'utf8'))
   // Create HTTP server
-  state.server ||= require('http')
-    .createServer((req, res)=>require(__filename).handle(state, req, res))
+  state.server ||= createServer((req, res)=>handle(state, req, res))
     .listen(port, ()=>console.info(`Listening on`, port))
   // Create WebSocket server
-  state.wsServer ||= new (require('ws').WebSocketServer)({ server: state.server })
+  state.wsServer ||= new WebSocketServer({ server: state.server })
     state.wsServer.on('listening', ()=>console.info(`WebSocket listening on`, port))
-    state.wsServer.on('connection', (ws, req)=>require(__filename).wsHandle(ws, req))
+    state.wsServer.on('connection', (ws, req)=>wsHandle(ws, req))
   // Return mutated state
   return state
 }

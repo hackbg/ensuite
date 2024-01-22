@@ -1,4 +1,4 @@
-#!/usr/bin/env ganesha-run
+#!/usr/bin/env -S node --import @ganesha/esbuild
 import md, { endToc } from './ensuite-md.js'
 import { compileFile } from 'pug'
 import { Console } from '@hackbg/logs'
