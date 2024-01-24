@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "@hackbg/file": "^2.0.2",
-    "@ganesha/esbuild": "1.0.0-rc.1",
+    "@ganesha/esbuild": "workspace:^",
     "@hackbg/logs": "^2.1.0",
     "@types/js-yaml": "^4.0.9",
     "@types/markdown-it": "^13.0.7",
