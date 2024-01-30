@@ -44,6 +44,6 @@ console
 const pkg    = dirname(fileURLToPath(import.meta.url))
     , c8     = resolve(pkg, 'node_modules', '.bin', 'c8')
     , cli    = resolve(pkg, 'ensuite.cli.mjs')
-    , c8args = [...argvCov, require.resolve('./ensuite.cli.cjs'), ...argvTest]
+    , c8args = [...argvCov, cli, ...argvTest]
     , env    = { ...process.env, GANESHA_NO_SOURCE_MAP: 1 }
 execFileSync(c8, c8args, { env, stdio: 'inherit' })
