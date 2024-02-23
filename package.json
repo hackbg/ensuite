@@ -38,7 +38,7 @@
     "markdown-it-highlightjs": "^4.0.1",
     "markdown-it-table-of-contents": "^0.6.0",
     "pug": "^3.0.2",
-    "typescript": "^5.3.2",
+    "typescript": "~5.3.3",
     "why-is-node-still-running": "^1.0.0",
     "ws": "^8.14.2"
   },
