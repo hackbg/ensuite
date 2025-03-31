@@ -1,4 +1,3 @@
-import why from 'why-is-node-still-running'
 import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { Module } from 'node:module'
@@ -21,6 +20,7 @@ export default async function main (root = process.cwd(), ...specs) {
 
   // If tests don't exit, press "?" to see why
   if (process.env.ENSUITE_WHY) {
+    const { why } = await import('why-is-node-still-running')
     if (process.stdin.setRawMode) {
       process.stdin.setRawMode(true)
     }
